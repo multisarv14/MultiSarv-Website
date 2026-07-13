@@ -1,0 +1,113 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "User profile details",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "manager", "user"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "name", "email", "role"]
+    },
+    "Lead": {
+      "title": "Lead Details",
+      "description": "Lead details received from potential customers",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "company": { "type": "string" },
+        "phone": { "type": "string" },
+        "product": { "type": "string" },
+        "requirements": { "type": "string" },
+        "budget": { "type": "string" },
+        "timeline": { "type": "string" },
+        "score": { "type": "number" },
+        "rationale": { "type": "string" },
+        "status": { "type": "string", "enum": ["new", "qualified", "demo_done", "closed"] },
+        "assignedTo": { "type": "string" },
+        "date": { "type": "string" },
+        "followUpNotes": { "type": "string" }
+      },
+      "required": ["id", "name", "email", "company", "phone", "product", "requirements", "budget", "timeline", "status", "assignedTo", "date"]
+    },
+    "Blog": {
+      "title": "Blog Post",
+      "description": "Corporate blog articles",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "snippet": { "type": "string" },
+        "content": { "type": "string" },
+        "category": { "type": "string" },
+        "keywords": { "type": "array" },
+        "metaDescription": { "type": "string" },
+        "date": { "type": "string" },
+        "readTime": { "type": "string" },
+        "published": { "type": "boolean" },
+        "isAiGenerated": { "type": "boolean" }
+      },
+      "required": ["id", "title", "snippet", "content", "category", "keywords", "metaDescription", "date", "readTime", "published"]
+    },
+    "ContactForm": {
+      "title": "Contact Form",
+      "description": "Form submissions from website contact page",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "message": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "email", "message"]
+    },
+    "AuditLog": {
+      "title": "Audit Log",
+      "description": "Security audit logs representing compliance events",
+      "type": "object",
+      "properties": {
+        "logId": { "type": "string" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "userRole": { "type": "string" },
+        "action": { "type": "string" },
+        "module": { "type": "string" },
+        "documentId": { "type": "string" },
+        "oldValue": { "type": "object" },
+        "newValue": { "type": "object" },
+        "ipAddress": { "type": "string" },
+        "deviceInfo": { "type": "string" },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["logId", "userId", "userName", "userRole", "action", "module", "documentId", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/leads/{leadId}": {
+      "schema": "Lead",
+      "description": "Leads collected by Sales team"
+    },
+    "/blogs/{blogId}": {
+      "schema": "Blog",
+      "description": "Published corporate blogs"
+    },
+    "/contactForms/{docId}": {
+      "schema": "ContactForm",
+      "description": "Contact form responses"
+    },
+    "/auditLogs/{logId}": {
+      "schema": "AuditLog",
+      "description": "Security audit entries"
+    }
+  }
+}

@@ -1,0 +1,164 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 1. Global Default-Deny Catch-All
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // 2. Global Recipient/ID & Session Helpers
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-\\.]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Checking if user is verified admin.
+    // Includes bootstrapped user email from prompt context: `ramdasraut9@gmail.com`
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == 'ramdasraut9@gmail.com' ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin')
+      );
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // 3. Entity Validation Helpers
+
+    // User Profile schema validation
+    function isValidUser(data) {
+      return data.keys().hasAll(['uid', 'name', 'email', 'role']) &&
+             data.keys().size() == 4 &&
+             data.uid == request.auth.uid &&
+             data.name is string && data.name.size() > 0 && data.name.size() <= 100 &&
+             data.email is string && data.email.size() > 0 && data.email.size() <= 100 &&
+             data.role in ['admin', 'manager', 'user'];
+    }
+
+    // Sales Lead schema validation
+    function isValidLead(data) {
+      return data.keys().hasAll(['id', 'name', 'email', 'company', 'phone', 'product', 'requirements', 'budget', 'timeline', 'status', 'assignedTo', 'date']) &&
+             data.id is string && data.id.size() <= 128 &&
+             data.name is string && data.name.size() > 0 && data.name.size() <= 100 &&
+             data.email is string && data.email.size() > 0 && data.email.size() <= 100 &&
+             data.company is string && data.company.size() <= 150 &&
+             data.phone is string && data.phone.size() <= 30 &&
+             data.product is string && data.product.size() <= 100 &&
+             data.requirements is string && data.requirements.size() <= 2000 &&
+             data.budget is string && data.budget.size() <= 100 &&
+             data.timeline is string && data.timeline.size() <= 100 &&
+             data.status in ['new', 'qualified', 'demo_done', 'closed'] &&
+             data.assignedTo is string && data.assignedTo.size() <= 100 &&
+             data.date is string && data.date.size() <= 50;
+    }
+
+    // Blog Post schema validation
+    function isValidBlog(data) {
+      return data.keys().hasAll(['id', 'title', 'snippet', 'content', 'category', 'keywords', 'metaDescription', 'date', 'readTime', 'published']) &&
+             data.id is string && data.id.size() <= 128 &&
+             data.title is string && data.title.size() > 0 && data.title.size() <= 250 &&
+             data.snippet is string && data.snippet.size() <= 500 &&
+             data.content is string && data.content.size() <= 50000 &&
+             data.category is string && data.category.size() <= 100 &&
+             data.keywords is list && data.keywords.size() <= 10 &&
+             data.metaDescription is string && data.metaDescription.size() <= 300 &&
+             data.date is string && data.date.size() <= 50 &&
+             data.readTime is string && data.readTime.size() <= 50 &&
+             data.published is bool;
+    }
+
+    // Contact Form schema validation
+    function isValidContactForm(data) {
+      return data.keys().hasAll(['name', 'email', 'message']) &&
+             data.keys().size() >= 3 &&
+             data.name is string && data.name.size() > 0 && data.name.size() <= 100 &&
+             data.email is string && data.email.size() > 0 && data.email.size() <= 100 &&
+             data.message is string && data.message.size() > 0 && data.message.size() <= 2000;
+    }
+
+    // Audit Log schema validation
+    function isValidAuditLog(data) {
+      return data.keys().hasAll(['logId', 'userId', 'userName', 'userRole', 'action', 'module', 'documentId', 'timestamp']) &&
+             data.logId is string && data.logId.size() <= 128 &&
+             data.userId is string && data.userId.size() <= 128 &&
+             data.userName is string && data.userName.size() <= 100 &&
+             data.userRole is string && data.userRole.size() <= 50 &&
+             data.action is string && data.action.size() <= 50 &&
+             data.module is string && data.module.size() <= 50 &&
+             data.documentId is string && data.documentId.size() <= 128 &&
+             data.timestamp is string && data.timestamp.size() <= 50;
+    }
+
+    // 4. Collection Matches & Allowances
+
+    // Users
+    match /users/{userId} {
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if isAdmin();
+      allow create: if isSignedIn() && isValidId(userId) && isValidUser(incoming()) && (incoming().role == 'user' || isAdmin());
+      allow update: if isSignedIn() && isValidId(userId) && isValidUser(incoming()) && (
+        isAdmin() ||
+        (isOwner(userId) && incoming().role == existing().role) // User cannot escalate their role
+      );
+      allow delete: if isAdmin();
+    }
+
+    // Leads
+    match /leads/{leadId} {
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn() && isValidId(leadId) && isValidLead(incoming());
+      allow update: if isSignedIn() && isValidId(leadId) && isValidLead(incoming()) && (
+        isAdmin() || (incoming().id == existing().id)
+      );
+      allow delete: if isAdmin();
+    }
+
+    // Products (read is public, write is admin-only)
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Blogs
+    match /blogs/{blogId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && isValidId(blogId) && isValidBlog(incoming());
+      allow delete: if isAdmin();
+    }
+
+    // Contact Forms
+    match /contactForms/{docId} {
+      allow create: if isValidId(docId) && isValidContactForm(incoming());
+      allow read, update, delete: if isAdmin();
+    }
+
+    // General settings config
+    match /settings/{docId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    // Audit Logs
+    match /auditLogs/{logId} {
+      allow read: if isAdmin();
+      allow create: if isSignedIn() && isValidId(logId) && isValidAuditLog(incoming());
+      allow update, delete: if false; // Audit logs must be immutable
+    }
+  }
+}
