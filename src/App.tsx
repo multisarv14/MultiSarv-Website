@@ -58,7 +58,7 @@ import { auth, db, handleFirestoreError, OperationType } from "./lib/firebase";
 import { signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "firebase/auth";
 import { collection, onSnapshot, doc, getDoc, setDoc, query, orderBy, deleteDoc, updateDoc } from "firebase/firestore";
 
-import logoMultiSarvCorporate from "./assets/images/logo_multisarv_white_1781256143142.jpg";
+import logoMultiSarvCorporate from "./assets/images/logo_multisarv_corporate_1781237621472.jpg";
 import logoRealtySarv from "./assets/images/logo_realtysarv_white_1781256158322.jpg";
 import logoSocietySarv from "./assets/images/logo_societysarv_white_1781256172859.jpg";
 import logoHRSarv from "./assets/images/logo_hrsarv_white_1781256191666.jpg";

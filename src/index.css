@@ -5,6 +5,69 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Space Grotesk", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-blue-50: #eff6ff;
+  --color-blue-100: #dbeafe;
+  --color-blue-200: #bfdbfe;
+  --color-blue-300: #93c5fd;
+  --color-blue-400: #5ea3ff;
+  --color-blue-500: #2b8dff;
+  --color-blue-600: #1677ff;
+  --color-blue-700: #0f5fd0;
+  --color-blue-800: #154b9f;
+  --color-blue-900: #1a3d7e;
+  --color-blue-950: #0b244a;
+
+  --color-cyan-50: #ecfdff;
+  --color-cyan-100: #cffafe;
+  --color-cyan-200: #a5f3fc;
+  --color-cyan-300: #67e8f9;
+  --color-cyan-400: #35d8ff;
+  --color-cyan-500: #1ec8ff;
+  --color-cyan-600: #0ca9df;
+  --color-cyan-700: #0f87b5;
+  --color-cyan-800: #176e93;
+  --color-cyan-900: #155a78;
+  --color-cyan-950: #0c3c53;
+
+  --color-orange-50: #fff7ed;
+  --color-orange-100: #ffedd5;
+  --color-orange-200: #fed7aa;
+  --color-orange-300: #fdba74;
+  --color-orange-400: #ffc107;
+  --color-orange-500: #ff9800;
+  --color-orange-600: #ea7e00;
+  --color-orange-700: #c25f00;
+  --color-orange-800: #9a4b08;
+  --color-orange-900: #7c3f0d;
+  --color-orange-950: #4a2207;
+
+  --color-slate-50: #f5f7fa;
+  --color-slate-100: #ecf1f6;
+  --color-slate-200: #d8e0ea;
+  --color-slate-300: #b6c3d2;
+  --color-slate-400: #8fa1b5;
+  --color-slate-500: #6f839a;
+  --color-slate-600: #566b83;
+  --color-slate-700: #44576c;
+  --color-slate-800: #324356;
+  --color-slate-900: #27384a;
+  --color-slate-950: #1f2937;
+}
+
+body {
+  background:
+    radial-gradient(1200px 520px at -5% 100%, color-mix(in srgb, var(--color-cyan-300) 15%, transparent), transparent 65%),
+    radial-gradient(1200px 520px at 105% 0%, color-mix(in srgb, var(--color-orange-300) 18%, transparent), transparent 65%),
+    linear-gradient(180deg, #ffffff 0%, var(--color-slate-50) 100%);
+  color: var(--color-slate-950);
+}
+
+.brand-gradient {
+  background: linear-gradient(90deg, var(--color-blue-600), var(--color-cyan-500), var(--color-orange-500));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 /* Custom scrollbar styling */
