@@ -42,13 +42,13 @@ app.post("/api/chat", async (req, res) => {
     if (!ai) {
       // High-quality simulated response when local API key is missing
       const fallbackReplies: { [key: string]: string } = {
-        realtysarv: "RealtySarv is our premier real-estate CRM and lead listing pipeline manager. It is designed to empower real estate developers, brokers, and consultants with instant lead updates, custom followups, commission trackers, and customer portal integration.",
-        societysarv: "SocietySarv provides automated workflows for residential and office society management. Its features coverGatekeeper security logs, resident directory coordination, digital Maintenance bill generation, online clubhouse bookings, and instant broadcast notifications.",
+        realtyconnect: "RealtyConnect is our exclusive real estate broker aggregation pool and MLS network that matches buyers with properties instantly. It features verified broker identity validation, transparent commission escrow logs, encrypted secure chat, and instant property matching for real estate agents, brokers, and developers.",
+        societysarv: "SocietySarv provides automated workflows for residential and office society management. Its features cover member registration with role-based access, flat billing configuration for 1BHK/2BHK/3BHK, maintenance collection with UPI/Cash/QR and e-receipt generation, income & expense ledger tracking, and circular notice broadcasts for residents.",
         hrsarv: "HRSarv handles all human-resource operations. It supports geo-tagged attendance check-ins, fully-automated salary slips generation, leaves balance tracking, target management, and structured performance reviews.",
         finsarv: "FinSarv is our enterprise secure financial auditing suite. It streamlines compliance checks, generates secure invoices, maintains ledgers, and integrates dynamic GST/tax dashboards directly with Firestore databases.",
         edusarv: "EduSarv is a modern educational ERP system suitable for schools, institutes, and colleges. It manages student data profiles, schedules exams, tracks school buses with GPS, and serves virtual learning content.",
         healthsarv: "HealthSarv is built for healthcare setups and multi-facility hospitals. Includes EHR records tracker, digital pharmacy bills, clinic OPD queue management, and doctors appointment schedules.",
-        realtyconnect: "RealtyConnect is an exclusive real estate broker aggregation pool that matches buyers with properties instantly in real-time.",
+        noai: "NOAI is a next-generation Human Work Marketplace that connects people who need work done with verified individuals, freelancers, professionals, businesses, and agencies. It supports local errands, freelance work, professional services, home services, and business workforce management — all in one trusted platform with smart task matching, live tracking, secure payments, and identity verification.",
         demo: "Absolutely! You can trigger a live interactive demo request for any of our services directly via our Products page. Simply fill in your contact coordinates or submit a request and our AI sales qualification engine will qualify the lead instantly.",
         pricing: "MultiSarv provides highly flexible SaaS pricing plans across all products. Standard plans typically start at ₹4,999/month for small startups, Enterprise customizable grids, and Custom Cloud setups built on private Firebase endpoints."
       };
@@ -66,7 +66,7 @@ app.post("/api/chat", async (req, res) => {
       }
 
       if (!matched) {
-        responseText += `MultiSarv India stands at the vanguard of modern AI-driven solutions (with Tagline: 'Innovate. Integrate. Inspire.'). We build outstanding cloud integrations, custom CRM layouts, business process automations, and full-stack solutions. \n\nHow can I help you regarding our products (RealtySarv, SocietySarv, HRSarv, FinSarv, EduSarv, HealthSarv, RealtyConnect), pricing tiers, or customized deployments?`;
+        responseText += `MultiSarv India stands at the vanguard of modern AI-driven solutions (with Tagline: 'Innovate. Integrate. Inspire.'). We build outstanding cloud integrations, custom CRM layouts, business process automations, and full-stack solutions. \n\nHow can I help you regarding our products (RealtyConnect, SocietySarv, HRSarv, FinSarv, EduSarv, HealthSarv, NOAI), pricing tiers, or customized deployments?`;
       }
 
       return res.json({ text: responseText });
@@ -75,13 +75,13 @@ app.post("/api/chat", async (req, res) => {
     const systemInstruction = `You are SarvAI, the official AI-driven Solution Architect and technical corporate assistant at MultiSarv India.
 Company tagline: "Innovate. Integrate. Inspire."
 You are trained in MultiSarv's services and comprehensive suite of specialized SaaS products:
-- RealtySarv: Premium real-estate CRM, pipeline tracker, client portal, broker network, customizable property lists.
-- SocietySarv: Housing Society Management, guard checkpoint alerts, digital billing & accounts, resident complaint desks, facilities booking, broadcast emails.
+- RealtyConnect: Exclusive real estate broker aggregation MLS network — verified broker database, commission escrow logs, buyer-property instant matching.
+- SocietySarv: Housing Society Management — member registration with roles, flat billing configs, maintenance collection with e-receipts, income/expense ledger, circular notices.
 - HRSarv: Human Resource management, geo-tracker check-ins, payroll calculator, targets, appraisals.
 - FinSarv: Financial ledger software, automated digital billing/invoices with GST, tax visualizers, secure auditing.
 - EduSarv: Education & school ERP, student tracking systems, exam planners, virtual class schedules, GPS bus tracker.
 - HealthSarv: Complete health workspace, patient file tracker, clinical OPD appointment lists, pharmaceutical records, invoices.
-- RealtyConnect: Real-time buyer-property matching pool for independent real estate consultants.
+- NOAI: Human Work Marketplace — connects customers with verified workers, freelancers, professionals for local tasks, errands, freelance work, and business workforce management.
 
 We also offer customized system builds, API integrations, Cloud solutions, and automation engines.
 
@@ -125,7 +125,7 @@ app.post("/api/qualify-lead", async (req, res) => {
 
       const reqLc = (requirements || "").toLowerCase();
       if (reqLc.includes("flat") || reqLc.includes("house") || reqLc.includes("broker") || reqLc.includes("agent") || reqLc.includes("property")) {
-        products.push("RealtySarv");
+        products.push("RealtyConnect");
         products.push("RealtyConnect");
         parsedNeeds.push("Real Estate CRM Solutions");
         score += 25;
@@ -186,7 +186,7 @@ app.post("/api/qualify-lead", async (req, res) => {
             suggestedProducts: {
               type: Type.ARRAY,
               items: { type: Type.STRING },
-              description: "Which MultiSarv SaaS catalog products (RealtySarv, SocietySarv, HRSarv, FinSarv, EduSarv, HealthSarv, RealtyConnect) best suit them."
+              description: "Which MultiSarv SaaS catalog products (RealtyConnect, SocietySarv, HRSarv, FinSarv, EduSarv, HealthSarv, NOAI) best suit them."
             },
             leadScore: {
               type: Type.INTEGER,
@@ -284,7 +284,7 @@ app.post("/api/generate-blog", async (req, res) => {
     if (!ai) {
       return res.json({
         title: `Transforming Modern ${category || "Industry"} with MultiSarv Cloud-Native ERPs`,
-        snippet: `Discover how our suite of applications, including RealtySarv and HRSarv, is redefining performance benchmarks in India.`,
+        snippet: `Discover how our suite of applications, including RealtyConnect and HRSarv, is redefining performance benchmarks in India.`,
         content: `## Transforming Modern ${category || "Industry"} with MultiSarv Cloud-Native ERPs
 
 In the contemporary era of hyper-scale business challenges, relying on legacy architecture is a key blocker of enterprise productivity. Organizations across India are actively searching for software models that unify automation, AI diagnostics, and robust database storage.
@@ -292,7 +292,7 @@ In the contemporary era of hyper-scale business challenges, relying on legacy ar
 ### The Power of Integrated Ecosystems
 
 Rather than running isolated point software systems that never communicate, modern business architectures rely on coordinated ecosystems:
-- **Real Estate Pipelines**: Connecting RealtySarv directly with financial ledger models simplifies booking contracts.
+- **Real Estate Pipelines**: Connecting RealtyConnect directly with financial ledger models simplifies broker commission tracking.
 - **Staff Optimization**: Integrating HRSarv geo-attendance tracking with automated tax calculations guarantees compliance.
 
 ### Leveraging Serverless Firebase Frameworks
@@ -313,7 +313,7 @@ Choosing MultiSarv's cloud blueprint allows startups and blue-chip enterprises a
       model: "gemini-3.5-flash",
       contents: `Write an SEO-optimized blog article about: "${topic}" under corporate business category: "${category}".
 
-We are MultiSarv India (tagline: Innovate. Integrate. Inspire.), offering RealtySarv, SocietySarv, HRSarv, FinSarv, EduSarv, HealthSarv, RealtyConnect. Highlight real-time sync, Firebase, and AI integration in the article.`,
+We are MultiSarv India (tagline: Innovate. Integrate. Inspire.), offering RealtyConnect, SocietySarv, HRSarv, FinSarv, EduSarv, HealthSarv, NOAI. Highlight real-time sync, Firebase, and AI integration in the article.`,
       config: {
         responseMimeType: "application/json",
         responseSchema: {

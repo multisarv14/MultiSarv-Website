@@ -167,16 +167,17 @@ const ALL_PRODUCTS: ProductDetails[] = [
   {
     id: "societysarv",
     name: "SocietySarv",
-    tagline: "Zero-Hassle Housing Maintenance Billing & Security (Mobile App)",
-    description: "An all-in-one platform for gatekeeper logs, maintenance billing, financial ledger audits, amenities booking, and unified resident communications. Official Android App going live on Google Play Store soon!",
+    tagline: "Housing Society Management — Billing, Security & Resident App",
+    description: "An all-in-one platform for member registration, maintenance billing, gatekeeper logs, financial ledger audits, notices, and unified resident communications. Official Android App going live on Google Play Store soon!",
     icon: "Shield",
     logoUrl: logoSocietySarv,
     badge: "ERP • Mobile App",
     features: [
-      "Guard gate registration with photo sync",
-      "Instant water/maintenance card billing dispatch",
-      "Automatic ledger entries for vendor payouts",
-      "Resident complaints board with photo ticket upload"
+      "Member registration with role-based access (Chairman, Secretary, Resident)",
+      "Flat billing configuration — set rates per 1BHK, 2BHK, 3BHK etc.",
+      "Maintenance collection with UPI/Cash/QR & instant e-receipt generation",
+      "Income & expense ledger — hall rent, parking, plumbing, security costs",
+      "Post rules & circular notices — General, Emergency, AGM, Event"
     ],
     benefits: [
       "Ensures 99% timely maintenance collections",
@@ -446,12 +447,39 @@ const ALL_PRODUCTS: ProductDetails[] = [
       enterprise: "₹1,299 / mo",
       support: "API credentials support + group training"
     }
+  },
+  {
+    id: "noai",
+    name: "NOAI",
+    tagline: "Next-Gen Human Work Marketplace — Connect, Work, Earn",
+    description: "NOAI connects people who need work done with verified individuals, freelancers, professionals, businesses, and agencies. From local errands and deliveries to professional services and enterprise workforce management — all in one trusted platform.",
+    icon: "Users",
+    badge: "New • Marketplace",
+    features: [
+      "Human Work Marketplace: local tasks, errands & deliveries",
+      "Freelancer & professional services marketplace",
+      "Smart task matching with verified worker profiles",
+      "Live task tracking & in-app chat communication",
+      "Secure wallet, payments & identity verification system",
+      "Multi-role platform: Customer, Worker, Business & Admin"
+    ],
+    benefits: [
+      "Technology that creates jobs, not replaces people",
+      "Connects customers to vetted workers instantly",
+      "Covers everything from local errands to enterprise workforce"
+    ],
+    pricing: {
+      starter: "₹0 / Free Tier",
+      standard: "₹999 / mo",
+      enterprise: "₹4,999 / mo",
+      support: "Dedicated worker onboarding + verification support"
+    }
   }
 ];
 
 // Active products to keep visible (others can be easily re-enabled later)
 const PRODUCTS: ProductDetails[] = ALL_PRODUCTS.filter(p =>
-  ["onlinesarv", "garageguru", "cookiq", "tubeiq", "domainlink", "societysarv"].includes(p.id)
+  ["realtyconnect", "noai", "onlinesarv", "garageguru", "cookiq", "tubeiq", "domainlink", "societysarv"].includes(p.id)
 );
 
 const FIRESTORE_RULES_TEXT = `rules_version = '2';
@@ -674,12 +702,12 @@ Using MultiSarv's specialized services, standard organizations are successfully 
       email: "sanjay@sharmagroups.in",
       company: "Sharma Realty & Structures",
       phone: "+91 98765 00121",
-      product: "RealtySarv",
+      product: "RealtyConnect",
       requirements: "Looking for an ERP with GPS route checking for our independent brokers.",
       budget: "High Level Custom Tier",
       timeline: "Urgent (under 15 days)",
       score: 92,
-      rationale: "Strong alignment with RealtySarv. High budget and urgent timeline detected.",
+      rationale: "Strong alignment with RealtyConnect. High budget and urgent timeline detected.",
       status: "qualified",
       assignedTo: "SarvAI Agent-1",
       date: "2026-06-10"
@@ -873,7 +901,7 @@ Using MultiSarv's specialized services, standard organizations are successfully 
       {
         id: "msg-init",
         sender: "sarvai",
-        text: "Namaste! I am **SarvAI**, your expert Solutions Architect at **MultiSarv India**. Ask me anything about our platforms (RealtySarv, SocietySarv, HRSarv, FinSarv, EduSarv, HealthSarv, RealtyConnect), custom software services, or test our AI tools! **How can I help you today?**",
+        text: "Namaste! I am **SarvAI**, your expert Solutions Architect at **MultiSarv India**. Ask me anything about our platforms (RealtyConnect, SocietySarv, HRSarv, FinSarv, EduSarv, HealthSarv, NOAI), custom software services, or test our AI tools! **How can I help you today?**",
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       }
     ]);
@@ -890,8 +918,13 @@ Using MultiSarv's specialized services, standard organizations are successfully 
     localStorage.setItem("multisarv_blogs", JSON.stringify(newBlogs));
   };
 
-  // Scroll to chat bottom
+  // Scroll to chat bottom (skip on initial mount to prevent page-load auto-scroll)
+  const chatScrollInitialized = useRef(false);
   useEffect(() => {
+    if (!chatScrollInitialized.current) {
+      chatScrollInitialized.current = true;
+      return;
+    }
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chatMessages]);
 
@@ -1303,17 +1336,6 @@ We recommend deploying MultiSarv's serverless pipeline mapped with Firestore col
   return (
     <div id="full-site-container" className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 font-sans selection:bg-cyan-500 selection:text-white transition-colors duration-200">
       
-      {/* 1. TOP CORPORATE HELPLINE & INFORMATION BAR */}
-      <div id="telemetry-bar" className="w-full bg-slate-900 border-b border-slate-800 text-[10px] md:text-xs py-1.5 px-4 text-slate-300 flex flex-wrap justify-between items-center z-50">
-        <div className="flex items-center gap-4">
-          <span className="flex items-center gap-1"><Phone className="w-3 h-3 text-cyan-400" /> +91 9545 870 970</span>
-          <span className="hidden md:inline text-slate-700">|</span>
-          <span className="hidden md:inline flex items-center gap-1"><Mail className="w-3 h-3 text-cyan-400" /> contact@multisarv.com</span>
-        </div>
-        <div className="flex gap-4 items-center">
-          <span className="flex items-center gap-1 text-[11px]"><MapPin className="w-3 h-3 text-orange-400" /> Pune, Maharashtra, India</span>
-        </div>
-      </div>
       <header id="main-nav" className="sticky top-0 bg-slate-950/95 backdrop-blur-md border-b border-slate-800/80 z-40 transition-colors">
         <div className="max-w-7xl mx-auto ps-1 pe-4 sm:ps-3 sm:pe-6 lg:ps-4 lg:pe-8 h-18 flex items-center justify-between">
           
@@ -1536,7 +1558,7 @@ We recommend deploying MultiSarv's serverless pipeline mapped with Firestore col
                 </p>
                 
                 <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-400 leading-relaxed font-sans">
-                  We engineer secure, low-latency SaaS applications designed for scale. Powering Real Estate (RealtySarv), Smart Housing (SocietySarv), medical records, payroll ledgers, and secure CRM pipelines across India.
+                  We engineer secure, low-latency SaaS applications designed for scale. Powering Real Estate (RealtyConnect), Smart Housing (SocietySarv), medical records, payroll ledgers, and secure CRM pipelines across India.
                 </p>
 
                 <div className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-4">
@@ -1617,6 +1639,7 @@ We recommend deploying MultiSarv's serverless pipeline mapped with Firestore col
                               {prod.id === "garageguru" && <Wrench className="w-5 h-5" />}
                               {prod.id === "cookiq" && <Utensils className="w-5 h-5" />}
                               {prod.id === "tubeiq" && <Tv className="w-5 h-5" />}
+                              {prod.id === "noai" && <Users className="w-5 h-5" />}
                             </div>
                           )}
                           <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 roundedbg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
@@ -1726,10 +1749,10 @@ We recommend deploying MultiSarv's serverless pipeline mapped with Firestore col
                 <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {[
                     {
-                      quote: "Deploying RealtySarv for our broker pipelines across Mumbai completely transformed client operations. Real-time notifications keep brokers aligned instantly.",
+                      quote: "Deploying RealtyConnect for our broker pipelines across Mumbai completely transformed client operations. Real-time notifications keep brokers aligned instantly.",
                       author: "Akash Singhal",
                       role: "Director of CRM, Singhal Builders Ltd.",
-                      org: "RealtySarv Customer"
+                      org: "RealtyConnect Customer"
                     },
                     {
                       quote: "The zero-trust Firebase rules security layer on SocietySarv gave our housing society residents complete confidence in payment pathways.",
@@ -1856,6 +1879,7 @@ We recommend deploying MultiSarv's serverless pipeline mapped with Firestore col
                           {prod.id === "garageguru" && <Wrench className="w-4 h-4" />}
                           {prod.id === "cookiq" && <Utensils className="w-4 h-4" />}
                           {prod.id === "tubeiq" && <Tv className="w-4 h-4" />}
+                          {prod.id === "noai" && <Users className="w-4 h-4" />}
                         </span>
                       )}
                       <span className="font-medium text-xs sm:text-sm">{prod.name}</span>
@@ -2552,7 +2576,7 @@ We recommend deploying MultiSarv's serverless pipeline mapped with Firestore col
               <span className="text-blue-600 dark:text-cyan-400 font-mono font-bold text-xs uppercase tracking-widest">Enterprise Solutions Companion</span>
               <h2 className="text-3xl sm:text-4xl font-display font-bold text-slate-950 dark:text-white">SarvAI Intelligent Partner</h2>
               <p className="max-w-xl mx-auto text-sm text-slate-500">
-                Ask queries about our SaaS products (RealtySarv, SocietySarv, HRSarv, FinSarv, EduSarv, HealthSarv, RealtyConnect), custom pricing packages, system architectures, or technical timelines.
+                Ask queries about our SaaS products (RealtyConnect, SocietySarv, HRSarv, FinSarv, EduSarv, HealthSarv, NOAI), custom pricing packages, system architectures, or technical timelines.
               </p>
             </div>
 
@@ -2580,7 +2604,7 @@ We recommend deploying MultiSarv's serverless pipeline mapped with Firestore col
                         {
                           id: "msg-init",
                           sender: "sarvai",
-                          text: "Namaste! I am **SarvAI**, your expert Solutions Architect at **MultiSarv India**. Ask me anything about our platforms (RealtySarv, SocietySarv, HRSarv, FinSarv, EduSarv, HealthSarv, RealtyConnect), custom software services, or test our AI tools! **How can I help you today?**",
+                          text: "Namaste! I am **SarvAI**, your expert Solutions Architect at **MultiSarv India**. Ask me anything about our platforms (RealtyConnect, SocietySarv, HRSarv, FinSarv, EduSarv, HealthSarv, NOAI), custom software services, or test our AI tools! **How can I help you today?**",
                           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                         }
                       ]);
@@ -2630,7 +2654,7 @@ We recommend deploying MultiSarv's serverless pipeline mapped with Firestore col
               {/* Suggestions Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 mt-4 pt-4 border-t border-slate-800/80 relative z-10">
                 {[
-                  "Tell me about RealtySarv ERP features",
+                  "Tell me about RealtyConnect ERP features",
                   "Explain SocietySarv security stack",
                   "What are custom CRM integration fees?"
                 ].map((suggest, idx) => (
@@ -3282,7 +3306,7 @@ We recommend deploying MultiSarv's serverless pipeline mapped with Firestore col
                   Information We Collect
                 </h4>
                 <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
-                  Depending on how you engage with our products (including RealtySarv, SocietySarv, OnlineSarv, CookIQ, TubeIQ, etc.) and services, we collect:
+                  Depending on how you engage with our products (including RealtyConnect, SocietySarv, OnlineSarv, CookIQ, TubeIQ, etc.) and services, we collect:
                 </p>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -3946,9 +3970,9 @@ We recommend deploying MultiSarv's serverless pipeline mapped with Firestore col
                               userRole: "Admin",
                               action: "UPDATE",
                               module: "Products",
-                              documentId: "PRODUCT_REALTYSARV",
-                              oldValue: { "name": "RealtySarv", "pricing": "₹3,999" },
-                              newValue: { "name": "RealtySarv", "pricing": "₹4,999" },
+                              documentId: "PRODUCT_REALTYCONNECT",
+                              oldValue: { "name": "RealtyConnect", "pricing": "₹3,999" },
+                              newValue: { "name": "RealtyConnect", "pricing": "₹4,999" },
                               ipAddress: "103.241.12.89",
                               deviceInfo: "Chrome 125 / Windows 11",
                               timestamp: "2026-06-11 09:41:00"
@@ -4032,7 +4056,7 @@ We recommend deploying MultiSarv's serverless pipeline mapped with Firestore col
                             module: "Lead Qualification Engine",
                             documentId: "AI_LOGS_CRM",
                             oldValue: null,
-                            newValue: { "module": "RealtySarv", "triggered": "WhatsApp Webhook push", "metrics_evaluation": "high" },
+                            newValue: { "module": "RealtyConnect", "triggered": "WhatsApp Webhook push", "metrics_evaluation": "high" },
                             ipAddress: "34.120.45.210",
                             deviceInfo: "Google Gemini 3.5 Flash Model Service Node",
                             timestamp: new Date().toISOString().replace('T', ' ').substring(0, 19)
@@ -4238,7 +4262,7 @@ We recommend deploying MultiSarv's serverless pipeline mapped with Firestore col
                         { title: "Delete Record Activity", desc: "Logs any deletion action which is restricted to system admin roles only." },
                         { title: "Settings Modification Audits", desc: "Tracks enterprise environment parameter adjustments." },
                         { title: "AI Requests Telemetry", desc: "Monitors token consumption rates, model versions, and outputs generated via Google Gemini pipeline requests." },
-                        { title: "Lead Assignments Track", desc: "Maintains transparency of sales lead routing across RealtySarv, SocietySarv and SaaS pipelines." }
+                        { title: "Lead Assignments Track", desc: "Maintains transparency of sales lead routing across RealtyConnect, SocietySarv and SaaS pipelines." }
                       ].map((item, idx) => (
                         <div key={idx} className="flex gap-2 items-start text-xs border-b border-slate-50 dark:border-slate-900/40 pb-2 bg-transparent last:border-none">
                           <Check className="w-4 h-4 text-blue-505 shrink-0 mt-0.5" />
@@ -4283,7 +4307,7 @@ We recommend deploying MultiSarv's serverless pipeline mapped with Firestore col
                   <div className="p-4 bg-slate-50 dark:bg-slate-950 rounded-2xl border border-slate-100 dark:border-slate-800 space-y-2">
                     <span className="font-bold text-slate-850 dark:text-slate-100 text-xs sm:text-sm block">MultiSarv India Enterprise Multi-tenant SaaS Compliance Standard</span>
                     <p className="text-xs text-slate-500 leading-relaxed">
-                      Our default retention policies are aligned to global SOC2 Security Principles, HIPAA Medical Ledger benchmarks, and ISO 27001 data protection workflows. Scaled storage and retention are handled efficiently under server-side processes, ensuring future products such as RealtySarv, SocietySarv, SocietyConnect, and HRSarv running on Google Cloud Firebase share fully vetted auditing schemas.
+                      Our default retention policies are aligned to global SOC2 Security Principles, HIPAA Medical Ledger benchmarks, and ISO 27001 data protection workflows. Scaled storage and retention are handled efficiently under server-side processes, ensuring future products such as RealtyConnect, SocietySarv, SocietyConnect, and HRSarv running on Google Cloud Firebase share fully vetted auditing schemas.
                     </p>
                   </div>
 
