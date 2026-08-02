@@ -668,6 +668,24 @@ export default function App() {
     return () => unsub();
   }, []);
 
+  // Set active tab from URL hash on initial load
+  useEffect(() => {
+    const hash = window.location.hash.replace("#", "").trim();
+    const validTabs = ["home", "products", "services", "about", "blogs", "contact", "sarvai", "privacy", "admin"];
+    if (hash && validTabs.includes(hash)) {
+      setActiveTab(hash);
+    }
+  }, []);
+
+  // Keep URL hash in sync with active tab
+  useEffect(() => {
+    if (activeTab === "home") {
+      history.replaceState(null, "", window.location.pathname);
+    } else {
+      history.replaceState(null, "", `#${activeTab}`);
+    }
+  }, [activeTab]);
+
   // Default blogs data helper
   const getDefaultBlogs = (): Blog[] => [
     {
@@ -3619,12 +3637,13 @@ We recommend deploying MultiSarv's serverless pipeline mapped with Firestore col
               >
                 Secure Terms of Use
               </button>
-              <button 
+              <a
+                href="#privacy"
                 onClick={(e) => { e.preventDefault(); setActiveTab("privacy"); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
                 className="hover:underline cursor-pointer focus:outline-none"
               >
                 Privacy & Cookies Policies
-              </button>
+              </a>
               <button 
                 onClick={(e) => { e.preventDefault(); setShowSecurityModal(true); }}
                 className="hover:underline cursor-pointer focus:outline-none"
