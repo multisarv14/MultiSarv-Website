@@ -482,6 +482,103 @@ const PRODUCTS: ProductDetails[] = ALL_PRODUCTS.filter(p =>
   ["realtyconnect", "noai", "onlinesarv", "garageguru", "cookiq", "tubeiq", "domainlink", "societysarv"].includes(p.id)
 );
 
+// Per-product privacy policy content
+interface ProductPrivacyInfo {
+  dataCollected: string[];
+  permissions?: string[];
+  dataSharingPolicy: string;
+  dataRetention: string;
+  specificNote?: string;
+}
+
+const PRODUCT_PRIVACY_DATA: Record<string, ProductPrivacyInfo> = {
+  realtysarv: {
+    dataCollected: ["Client names and corporate contact details", "Property inquiry and broker assignment records", "Sales pipeline stages and lead scoring metadata", "In-app PDF interaction logs"],
+    dataSharingPolicy: "No data is shared with external marketing agencies. Broker records are visible only within the subscribed organization's workspace.",
+    dataRetention: "Client and broker records are retained as long as the subscription is active, plus 12 months after termination for audit purposes.",
+    specificNote: "All financial and contact data is stored under SSL-encrypted Firestore collections with role-based access rules."
+  },
+  societysarv: {
+    dataCollected: ["Resident member profiles and flat details", "Visitor gate-entry logs with timestamps", "Maintenance billing transactions and payment receipts", "Community notice dispatch records"],
+    permissions: ["CAMERA – to log security check photos and vehicle plates at society gates", "POST_NOTIFICATIONS – to send visitor approvals, billing alerts, and community notices"],
+    dataSharingPolicy: "Resident data is strictly isolated per housing society. No data is shared with any third party outside the organization.",
+    dataRetention: "Billing records are retained for 7 years in compliance with accounting standards. Visitor logs are retained for 1 year.",
+    specificNote: "All records are stored with SSL encryption inside dedicated Firestore databases with strict Firebase security rulesets."
+  },
+  hrsarv: {
+    dataCollected: ["Employee personal details, designation, and department", "Biometric and GPS geo-fenced attendance timestamps", "Leave applications and approval records", "Salary, bonus, and tax ledger data"],
+    permissions: ["ACCESS_FINE_LOCATION – for GPS geo-fenced attendance check-in validation"],
+    dataSharingPolicy: "HR and payroll data is confidential and never shared outside the organization. Government statutory filings are the sole exception where data export is permitted.",
+    dataRetention: "Employee records and payroll data are retained for a minimum of 7 years for statutory compliance.",
+    specificNote: "Salary and tax data is encrypted at rest and in transit."
+  },
+  finsarv: {
+    dataCollected: ["Business invoices, ledger entries, and GST return records", "Client and vendor contact information", "Bank transaction references and reconciliation data", "Digital signature and company seal metadata"],
+    dataSharingPolicy: "Financial records are never shared with third parties. GST portal submissions are performed only at the direction of the subscribing organization.",
+    dataRetention: "All accounting records are retained for a minimum of 8 years per GST and statutory audit requirements.",
+    specificNote: "Double-entry ledger data and tax records are protected with end-to-end encryption."
+  },
+  edusarv: {
+    dataCollected: ["Student admission details and academic records", "Parent and guardian contact information", "Attendance, exam scores, and report card data", "GPS-based school bus live location data (parents' devices)"],
+    permissions: ["ACCESS_FINE_LOCATION – for real-time school bus GPS tracking visible to parents"],
+    dataSharingPolicy: "Student data is accessible only to authorized school administrators, teachers, and respective parents/guardians. No data is shared with advertisers.",
+    dataRetention: "Academic and student records are retained for the duration of enrollment plus 5 years post-graduation.",
+    specificNote: "Student health or special needs data, if recorded, is handled with highest confidentiality and visible only to authorized medical/administrative staff."
+  },
+  healthsarv: {
+    dataCollected: ["Patient name, contact details, and medical history", "Prescription records and diagnosis notes", "OPD queue and appointment scheduling logs", "Pharmacy billing and inventory transaction data"],
+    dataSharingPolicy: "Patient health records are strictly confidential and are never shared outside the subscribed clinic or hospital without explicit patient consent.",
+    dataRetention: "Patient medical records are retained for a minimum of 7 years as mandated by medical regulation guidelines.",
+    specificNote: "All patient data is encrypted with AES-256 at rest and TLS in transit. Only authenticated medical personnel can access records."
+  },
+  realtyconnect: {
+    dataCollected: ["Verified broker identity and professional credentials", "Property listings, inventory, and commission structures", "Buyer inquiry and match logs", "Secure in-app chat message metadata"],
+    dataSharingPolicy: "Broker profiles are shared within the verified RealtyConnect network only. No personal contact details are exposed publicly without consent.",
+    dataRetention: "Broker and listing records are retained while the account is active, plus 6 months post-deactivation for dispute resolution.",
+    specificNote: "Commission agreements and financial settlement data are handled with encrypted escrow log protection."
+  },
+  onlinesarv: {
+    dataCollected: ["Search queries and service category preferences", "Geolocation coordinates during active browsing sessions", "Customer phone numbers for quote dispatching", "Merchant catalog and verified credential profiles"],
+    permissions: ["ACCESS_COARSE_LOCATION and ACCESS_FINE_LOCATION – used only to find nearby local service providers while the app is in active foreground use"],
+    dataSharingPolicy: "Geolocation data is not stored permanently and is used only in real-time to surface local results. Merchant contact details are shared only with consenting customers.",
+    dataRetention: "Search and location session data is discarded at session close. Quote request data is retained for 90 days.",
+    specificNote: "Geolocation is requested only during active foreground usage and is never polled, tracked, or cached in the background."
+  },
+  domainlink: {
+    dataCollected: ["Domain registrant name, email, and contact address (WHOIS)", "Hosting account credentials and server configuration settings", "DNS records and SSL certificate renewal metadata", "Business email mailbox configurations"],
+    dataSharingPolicy: "WHOIS registrant data is submitted to ICANN-accredited registrars as required by domain registration regulations. No hosting data is shared with advertisers.",
+    dataRetention: "Hosting and domain records are retained for the duration of service and 1 year post-expiry for recovery purposes.",
+    specificNote: "Business email content is stored on isolated IMAP/POP3 servers with TLS encryption. DomainLink staff cannot access mailbox content."
+  },
+  garageguru: {
+    dataCollected: ["Vehicle registration details and owner contact information", "Mechanical repair state logs and service bay timestamps", "Spare parts inventory transaction records", "Custom inspection photos uploaded during vehicle service"],
+    permissions: ["CAMERA – to capture vehicle inspection logs, mechanical issues, and custom service part barcodes", "READ_EXTERNAL_STORAGE – to retrieve local files and export service receipts"],
+    dataSharingPolicy: "No personal vehicle or diagnostic telemetry data is shared with any third-party advertising agents or marketing companies.",
+    dataRetention: "Vehicle service records are retained for 3 years for warranty and service history reference.",
+    specificNote: "Inspection photos are stored securely per vehicle record and are accessible only to the garage operator."
+  },
+  cookiq: {
+    dataCollected: ["User-created recipe catalogs and ingredient lists", "Pantry item depletion preferences and shopping cart data", "Food preference profiles and dietary filters", "Household shared grocery lists across devices"],
+    permissions: ["CAMERA – to scan recipe books or grocery product barcodes", "WRITE_EXTERNAL_STORAGE – to export grocery shopping lists to PDF documents"],
+    dataSharingPolicy: "Cooking and pantry data is private to the user account. No food preference or shopping data is shared with third-party advertisers.",
+    dataRetention: "Recipe and pantry data is retained while the account is active and permanently deleted within 30 days of account closure.",
+    specificNote: "Cooking lists and preferences remain localized on the user's secure account space and are not used for any advertising profiling."
+  },
+  tubeiq: {
+    dataCollected: ["Saved video titles, descriptions, and keyword research notes", "Performance prediction keywords and content concept drafts", "Competitor metadata analysis logs", "CTR forecasting session data"],
+    permissions: ["INTERNET – to synchronize metadata trends and video performance statistics", "POST_NOTIFICATIONS – for performance alert dispatches"],
+    dataSharingPolicy: "TubeIQ connects with public statistical services for trend data. No sensitive personal accounts, credentials, or video passwords are accessed or recorded.",
+    dataRetention: "Video research notes and keyword logs are retained while the account is active.",
+    specificNote: "TubeIQ does not request access to your YouTube or social media account credentials at any point."
+  },
+  noai: {
+    dataCollected: ["Worker and customer identity verification documents", "Task request details, location, and completion logs", "Wallet transaction and payment records", "In-app chat communication metadata", "Worker skill profiles and ratings"],
+    dataSharingPolicy: "Identity verification data is used solely for platform safety checks. Payment data is processed via secured payment gateways and never stored in plaintext.",
+    dataRetention: "Transaction records are retained for 7 years for financial compliance. Task and rating history is retained while the account is active.",
+    specificNote: "NOAI connects people with verified workers. All identity documents submitted for verification are encrypted and accessible only to authorized compliance reviewers."
+  }
+};
+
 const FIRESTORE_RULES_TEXT = `rules_version = '2';
 
 service cloud.firestore {
@@ -558,6 +655,7 @@ service cloud.firestore {
 export default function App() {
   const [activeTab, setActiveTab] = useState<string>("home");
   const [selectedProduct, setSelectedProduct] = useState<ProductDetails>(PRODUCTS[0]);
+  const [privacyProductId, setPrivacyProductId] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const [showTermsModal, setShowTermsModal] = useState<boolean>(false);
   const [showPrivacyModal, setShowPrivacyModal] = useState<boolean>(false);
@@ -674,6 +772,13 @@ export default function App() {
     const validTabs = ["home", "products", "services", "about", "blogs", "contact", "sarvai", "privacy", "admin"];
     if (hash && validTabs.includes(hash)) {
       setActiveTab(hash);
+    } else if (hash.startsWith("privacy-")) {
+      const productId = hash.replace("privacy-", "");
+      const found = ALL_PRODUCTS.find(p => p.id === productId);
+      if (found) {
+        setPrivacyProductId(productId);
+        setActiveTab("privacy");
+      }
     }
   }, []);
 
@@ -681,10 +786,12 @@ export default function App() {
   useEffect(() => {
     if (activeTab === "home") {
       history.replaceState(null, "", window.location.pathname);
+    } else if (activeTab === "privacy" && privacyProductId) {
+      history.replaceState(null, "", `#privacy-${privacyProductId}`);
     } else {
       history.replaceState(null, "", `#${activeTab}`);
     }
-  }, [activeTab]);
+  }, [activeTab, privacyProductId]);
 
   // Default blogs data helper
   const getDefaultBlogs = (): Blog[] => [
@@ -1938,16 +2045,29 @@ We recommend deploying MultiSarv's serverless pipeline mapped with Firestore col
                     </div>
                     
                     {/* Action button to load Proposal Gen directly */}
-                    <button
-                      onClick={() => {
-                        setProposalForm(prev => ({ ...prev, selectedProduct: selectedProduct.name }));
-                        setActiveTab("ai-sandbox");
-                      }}
-                      className="bg-orange-500 hover:bg-orange-400 text-white font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-xl transition-all flex items-center gap-2 cursor-pointer"
-                    >
-                      <Sparkles className="w-4 h-4 text-white" />
-                      <span>Draft Custom Proposal</span>
-                    </button>
+                    <div className="flex flex-wrap gap-2">
+                      <button
+                        onClick={() => {
+                          setProposalForm(prev => ({ ...prev, selectedProduct: selectedProduct.name }));
+                          setActiveTab("ai-sandbox");
+                        }}
+                        className="bg-orange-500 hover:bg-orange-400 text-white font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-xl transition-all flex items-center gap-2 cursor-pointer"
+                      >
+                        <Sparkles className="w-4 h-4 text-white" />
+                        <span>Draft Custom Proposal</span>
+                      </button>
+                      <button
+                        onClick={() => {
+                          setPrivacyProductId(selectedProduct.id);
+                          setActiveTab("privacy");
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                        className="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-xl transition-all flex items-center gap-2 cursor-pointer"
+                      >
+                        <Shield className="w-4 h-4" />
+                        <span>Privacy Policy</span>
+                      </button>
+                    </div>
                   </div>
 
                   <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed font-sans mt-4">
@@ -3299,7 +3419,9 @@ We recommend deploying MultiSarv's serverless pipeline mapped with Firestore col
                 ZERO-TRUST DATA PROTECTION
               </span>
               <h2 className="text-3xl sm:text-4xl font-display font-bold text-slate-950 dark:text-white">
-                Privacy & Cookies Policies
+                {privacyProductId
+                  ? `${ALL_PRODUCTS.find(p => p.id === privacyProductId)?.name ?? ""} — Privacy Policy`
+                  : "Privacy & Cookies Policies"}
               </h2>
               <p className="max-w-lg mx-auto text-sm text-slate-500 dark:text-slate-400">
                 MultiSarv India respects your privacy and is committed to protecting your personal data in accordance with modern digital protection standards.
@@ -3307,6 +3429,134 @@ We recommend deploying MultiSarv's serverless pipeline mapped with Firestore col
               <p className="text-xs text-slate-400 dark:text-slate-500">Effective Date: June 2026</p>
             </div>
 
+            {/* Product Privacy Selector Grid */}
+            <div className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl p-6 shadow-sm space-y-4">
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <h3 className="font-bold text-slate-900 dark:text-white text-sm sm:text-base font-display flex items-center gap-2">
+                  <Shield className="w-4 h-4 text-blue-500" />
+                  Product-Specific Privacy Policies
+                </h3>
+                {privacyProductId && (
+                  <button
+                    onClick={() => { setPrivacyProductId(null); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                    className="text-xs text-blue-600 dark:text-cyan-400 font-semibold hover:underline flex items-center gap-1 cursor-pointer"
+                  >
+                    <X className="w-3.5 h-3.5" /> View General Policy
+                  </button>
+                )}
+              </div>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Select a product below to view its dedicated privacy disclosure.</p>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                {ALL_PRODUCTS.map(prod => (
+                  <button
+                    key={prod.id}
+                    onClick={() => { setPrivacyProductId(prod.id); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                    className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border text-left transition-all cursor-pointer text-xs font-semibold ${
+                      privacyProductId === prod.id
+                        ? "bg-blue-600 dark:bg-cyan-600 border-blue-500 dark:border-cyan-500 text-white"
+                        : "bg-slate-50 dark:bg-slate-950 border-slate-100 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-blue-300 dark:hover:border-cyan-700 hover:bg-blue-50 dark:hover:bg-blue-950/30"
+                    }`}
+                  >
+                    <Lock className="w-3.5 h-3.5 shrink-0" />
+                    <span className="truncate">{prod.name}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Per-Product Privacy Section */}
+            {privacyProductId && (() => {
+              const prod = ALL_PRODUCTS.find(p => p.id === privacyProductId);
+              const privInfo = PRODUCT_PRIVACY_DATA[privacyProductId];
+              if (!prod || !privInfo) return null;
+              return (
+                <div className="bg-white dark:bg-slate-900 border border-blue-100 dark:border-blue-900/50 rounded-3xl p-6 sm:p-8 space-y-5 shadow-sm">
+                  <div className="flex items-center gap-3 pb-4 border-b border-slate-100 dark:border-slate-800">
+                    {prod.logoUrl ? (
+                      <img src={prod.logoUrl} alt={`${prod.name} logo`} className="w-12 h-12 rounded-xl object-cover bg-white border border-slate-200 shadow-sm select-none" referrerPolicy="no-referrer" />
+                    ) : (
+                      <span className="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950 flex items-center justify-center">
+                        <Shield className="w-6 h-6 text-blue-500" />
+                      </span>
+                    )}
+                    <div>
+                      <span className="text-blue-600 dark:text-cyan-400 font-mono font-bold text-[10px] uppercase tracking-widest">Product Privacy Policy</span>
+                      <h3 className="font-display font-bold text-lg text-slate-950 dark:text-white">{prod.name}</h3>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">{prod.tagline}</p>
+                    </div>
+                  </div>
+
+                  {/* Data Collected */}
+                  <div className="space-y-2">
+                    <h4 className="font-bold text-slate-900 dark:text-white text-sm border-b border-slate-100 dark:border-slate-800/50 pb-1.5">Data We Collect</h4>
+                    <ul className="space-y-1.5">
+                      {privInfo.dataCollected.map((item, i) => (
+                        <li key={i} className="flex items-start gap-2 text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+                          <Check className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Permissions (if any) */}
+                  {privInfo.permissions && privInfo.permissions.length > 0 && (
+                    <div className="space-y-2 p-4 bg-amber-50/30 dark:bg-amber-950/15 border border-amber-100/50 dark:border-amber-900/30 rounded-2xl">
+                      <h4 className="font-bold text-slate-900 dark:text-white text-sm flex items-center gap-1.5">
+                        <Smartphone className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+                        <span>Device Permissions Requested</span>
+                      </h4>
+                      <ul className="space-y-1.5">
+                        {privInfo.permissions.map((perm, i) => (
+                          <li key={i} className="text-xs text-slate-600 dark:text-slate-300">
+                            <code className="bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded text-[11px] font-mono font-semibold">{perm.split(" – ")[0]}</code>
+                            {perm.includes(" – ") && <span className="ml-1">– {perm.split(" – ")[1]}</span>}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Data Sharing */}
+                  <div className="space-y-1.5">
+                    <h4 className="font-bold text-slate-900 dark:text-white text-sm border-b border-slate-100 dark:border-slate-800/50 pb-1.5">Data Sharing Policy</h4>
+                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">{privInfo.dataSharingPolicy}</p>
+                  </div>
+
+                  {/* Data Retention */}
+                  <div className="space-y-1.5">
+                    <h4 className="font-bold text-slate-900 dark:text-white text-sm border-b border-slate-100 dark:border-slate-800/50 pb-1.5">Data Retention</h4>
+                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">{privInfo.dataRetention}</p>
+                  </div>
+
+                  {/* Specific Note */}
+                  {privInfo.specificNote && (
+                    <div className="p-4 bg-emerald-50/50 dark:bg-emerald-950/25 border border-emerald-100 dark:border-emerald-900/40 rounded-2xl flex gap-3 items-start">
+                      <Shield className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                      <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-200">{privInfo.specificNote}</p>
+                    </div>
+                  )}
+
+                  <div className="pt-2 flex flex-wrap gap-3">
+                    <button
+                      onClick={() => setActiveTab("contact")}
+                      className="bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs tracking-wider uppercase px-4 py-2 rounded-xl cursor-pointer"
+                    >
+                      Privacy Inquiry
+                    </button>
+                    <button
+                      onClick={() => { setPrivacyProductId(null); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                      className="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-xs tracking-wider uppercase px-4 py-2 rounded-xl cursor-pointer"
+                    >
+                      ← General Policy
+                    </button>
+                  </div>
+                </div>
+              );
+            })()}
+
+            {/* General Privacy Policy (shown when no product is selected) */}
+            {!privacyProductId && (
             <div className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6 shadow-sm">
               <div className="p-4 bg-emerald-50/50 dark:bg-emerald-950/25 border border-emerald-100 dark:border-emerald-900/40 rounded-2xl flex gap-3 items-start">
                 <Shield className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
@@ -3563,6 +3813,8 @@ We recommend deploying MultiSarv's serverless pipeline mapped with Firestore col
               </div>
 
             </div>
+            )}
+
           </div>
         )}
 
@@ -3572,7 +3824,7 @@ We recommend deploying MultiSarv's serverless pipeline mapped with Firestore col
       <footer id="corporate-footer" className="bg-slate-950 text-slate-400 py-12 border-t border-slate-900 mt-auto transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
             
             <div className="space-y-4">
               <div className="flex items-center gap-2">
@@ -3598,6 +3850,23 @@ We recommend deploying MultiSarv's serverless pipeline mapped with Firestore col
                       onClick={() => { setSelectedProduct(prod); setActiveTab("products"); }}
                       className="hover:text-cyan-400 hover:underline text-left truncate max-w-[140px]"
                     >
+                      {prod.name}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-mono text-xs uppercase font-bold text-white tracking-widest mb-3">Privacy Policies</h4>
+              <ul className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs text-slate-500 max-w-sm">
+                {ALL_PRODUCTS.map(prod => (
+                  <li key={prod.id}>
+                    <button
+                      onClick={() => { setPrivacyProductId(prod.id); setActiveTab("privacy"); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                      className="hover:text-cyan-400 hover:underline text-left truncate max-w-[140px] flex items-center gap-1"
+                    >
+                      <Lock className="w-2.5 h-2.5 shrink-0 text-slate-600" />
                       {prod.name}
                     </button>
                   </li>
