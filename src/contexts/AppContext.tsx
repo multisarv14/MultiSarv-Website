@@ -200,7 +200,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const chatScrollInitialized = useRef(false);
   useEffect(() => {
     if (!chatScrollInitialized.current) { chatScrollInitialized.current = true; return; }
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (chatMessages.length <= 1) return;
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
   }, [chatMessages]);
 
   const handleLogin = async () => {
