@@ -105,19 +105,6 @@ export default function ServicesPage() {
         </div>
       </div>
 
-      {/* CTA */}
-      <div className="bg-gradient-to-tr from-slate-900 to-slate-950 text-white rounded-3xl p-8 border border-slate-800 text-center space-y-4 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
-        <h3 className="font-display font-bold text-2xl">Connect with MultiSarv Architects directly</h3>
-        <p className="text-xs text-slate-400 max-w-lg mx-auto">Submit your technical constraints regarding WhatsApp dispatch triggers, offline databases syncing, and dashboard layouts.</p>
-        <Link
-          to="/sandbox"
-          className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl inline-flex items-center gap-2 transition-transform hover:scale-103 mt-2"
-        >
-          <Bot className="w-4 h-4" />
-          <span>Begin onboarding sandbox</span>
-        </Link>
-      </div>
     </div>
   );
 }

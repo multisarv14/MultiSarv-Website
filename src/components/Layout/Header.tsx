@@ -92,15 +92,7 @@ export default function Header() {
                 Logout
               </button>
             </div>
-          ) : (
-            <button
-              onClick={handleLogin}
-              className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs uppercase tracking-wider px-3.5 py-2 rounded-lg transition-all flex items-center gap-1.5 shadow-md shadow-cyan-500/10 cursor-pointer hover:scale-102"
-            >
-              <Lock className="w-3.5 h-3.5" />
-              <span>Sign In with Google</span>
-            </button>
-          )}
+          ) : null}
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -166,15 +158,7 @@ export default function Header() {
                   Disconnect Profile
                 </button>
               </div>
-            ) : (
-              <button
-                onClick={() => { handleLogin(); setMobileMenuOpen(false); }}
-                className="w-full text-center bg-cyan-500 text-slate-950 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5"
-              >
-                <Lock className="w-4 h-4" />
-                <span>Sign In with Google</span>
-              </button>
-            )}
+            ) : null}
           </div>
         </div>
       )}

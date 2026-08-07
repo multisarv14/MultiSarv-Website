@@ -128,13 +128,6 @@ export default function Footer() {
                 <li className="flex items-center gap-1.5"><Phone className="w-3.5 h-3.5 text-slate-600" /><span>+91 9545 870 970</span></li>
                 <li className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5 text-slate-600" /><span>Jagatguru Heights, Dehu, Pune, MH</span></li>
               </ul>
-              <h4 className="font-mono text-xs uppercase font-bold text-white tracking-widest mb-2">Google Tech Stack</h4>
-              <ul className="space-y-1 text-xs text-slate-500">
-                <li>Google Gemini 3.5 Flash Model</li>
-                <li>Firebase Firestore & Zero-Trust Shield</li>
-                <li>Cloud Run Sandbox Pipelines</li>
-                <li>Firebase Hosting Nodes</li>
-              </ul>
             </div>
 
           </div>
