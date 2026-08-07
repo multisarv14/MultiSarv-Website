@@ -137,23 +137,6 @@ export default function HomePage() {
             </Link>
           ))}
         </div>
-        {/* CTA Banner */}
-        <div className="mt-12 bg-gradient-to-tr from-blue-700 via-cyan-600 to-orange-500 text-white rounded-3xl p-6 sm:p-10 flex flex-col md:flex-row justify-between items-center gap-6 shadow-xl">
-          <div className="space-y-3 text-center md:text-left">
-            <div className="inline-block bg-white/20 px-3 py-1 rounded-full text-xs font-mono">MultiSarv Intelligent Engine Stack</div>
-            <h3 className="text-xl sm:text-2xl font-display font-bold">Instantly qualify your deal & score the lead using SarvAI</h3>
-            <p className="text-sm text-cyan-100 max-w-xl">
-              Fill in key metrics on requirements and budget. Our Gemini AI scoring model evaluates the technical fit and saves a lead entry in our pipeline.
-            </p>
-          </div>
-          <Link
-            to="/sandbox"
-            className="bg-white hover:bg-slate-50 text-slate-950 font-bold px-6 py-3 rounded-xl text-xs uppercase tracking-wider flex items-center gap-2 shrink-0 transition-transform hover:scale-105"
-          >
-            <Bot className="w-4 h-4 text-orange-500" />
-            <span>Interactive Engine Sandbox</span>
-          </Link>
-        </div>
       </section>
 
       {/* SERVICES PREVIEW */}
