@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Bot, Lock, Menu, X } from "lucide-react";
 import { useAppContext } from "../../contexts/AppContext";
-import logoMultiSarvCorporate from "../../assets/images/logo_multisarv_corporate_1781237621472.jpg";
+import logoMultiSarvCorporate from "../../assets/images/logo_multisarv_new.jpeg";
 
 const NAV_ITEMS = [
   { path: "/", label: "Home" },
