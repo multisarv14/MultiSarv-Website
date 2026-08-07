@@ -7,6 +7,7 @@ import logoHealthSarv from "../assets/images/logo_healthsarv_white_1781256234953
 import logoRealtyConnect from "../assets/images/logo_realtyconnect_white_1781256249795.jpg";
 import logoOnlineSarv from "../assets/images/logo_onlinesarv_white_1781256263639.jpg";
 import logoDomainLink from "../assets/images/logo_domainlink_white_1781256279260.jpg";
+import logoMultiSarv from "../assets/images/logo_multisarv_white_1781256143142.jpg";
 
 import { ProductDetails, ServiceDetail } from "../types";
 
@@ -252,6 +253,7 @@ export const ALL_PRODUCTS: ProductDetails[] = [
     tagline: "Automotive Garage Management & Slot Booking Platform",
     description: "An immersive vehicle service and garage management software. Perfect for booking mechanical service slots, tracking repair states, generating digital invoices, and managing spare parts inventories. Official Android App going live on Google Play Store soon!",
     icon: "Wrench",
+    logoUrl: logoMultiSarv,
     badge: "New • Mobile App",
     features: [
       "Instant vehicle pick-up/drop-off tracker",
@@ -277,6 +279,7 @@ export const ALL_PRODUCTS: ProductDetails[] = [
     tagline: "Intelligent Kitchen Recipe Book & Ingredient Tracker",
     description: "A gorgeous, smart kitchen companion mobile app designed to catalog custom recipes, generate AI-driven grocery shopping lists, and track pantry ingredient levels. Official Android App going live on Google Play Store soon!",
     icon: "Utensils",
+    logoUrl: logoMultiSarv,
     badge: "New • Mobile App",
     features: [
       "AI-powered recipe translation and scale adapter",
@@ -302,6 +305,7 @@ export const ALL_PRODUCTS: ProductDetails[] = [
     tagline: "Video Creators Metadata & Thumbnail Performance Suite",
     description: "A powerful analytics and helper app designed for video creators to optimize metadata titles, generate high-performing video concepts, and track video performance. Official Android App going live on Google Play Store soon!",
     icon: "Tv",
+    logoUrl: logoMultiSarv,
     badge: "New • Mobile App",
     features: [
       "Title and description semantic relevance checker",
@@ -327,6 +331,7 @@ export const ALL_PRODUCTS: ProductDetails[] = [
     tagline: "Next-Gen Human Work Marketplace — Connect, Work, Earn",
     description: "NOAI connects people who need work done with verified individuals, freelancers, professionals, businesses, and agencies. From local errands and deliveries to professional services and enterprise workforce management — all in one trusted platform.",
     icon: "Users",
+    logoUrl: logoMultiSarv,
     badge: "New • Marketplace",
     features: [
       "Human Work Marketplace: local tasks, errands & deliveries",
