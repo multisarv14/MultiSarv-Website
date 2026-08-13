@@ -53,7 +53,10 @@ export default function PrivacyPage() {
           <p className="max-w-lg mx-auto text-sm text-slate-500 dark:text-slate-400">
             MultiSarv India respects your privacy and is committed to protecting your personal data in accordance with modern digital protection standards.
           </p>
-          <p className="text-xs text-slate-400 dark:text-slate-500">Effective Date: June 2026</p>
+          <p className="text-xs text-slate-400 dark:text-slate-500">
+            Effective Date: {privacyInfo?.effectiveDate || "June 2026"}
+            {privacyInfo?.lastUpdated && ` · Last Updated: ${privacyInfo.lastUpdated}`}
+          </p>
         </div>
       </div>
 
@@ -156,6 +159,25 @@ export default function PrivacyPage() {
             <h4 className="font-bold text-slate-900 dark:text-white text-sm border-b border-slate-100 dark:border-slate-800/50 pb-1.5">Data Retention</h4>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">{privacyInfo.dataRetention}</p>
           </div>
+
+          {privacyInfo.policySections?.map((section) => (
+            <div key={section.heading} className="space-y-2">
+              <h4 className="font-bold text-slate-900 dark:text-white text-sm border-b border-slate-100 dark:border-slate-800/50 pb-1.5">{section.heading}</h4>
+              {section.paragraphs?.map((paragraph) => (
+                <p key={paragraph} className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">{paragraph}</p>
+              ))}
+              {section.items && (
+                <ul className="space-y-1.5">
+                  {section.items.map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+                      <Check className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ))}
 
           {privacyInfo.specificNote && (
             <div className="p-4 bg-emerald-50/50 dark:bg-emerald-950/25 border border-emerald-100 dark:border-emerald-900/40 rounded-2xl flex gap-3 items-start">

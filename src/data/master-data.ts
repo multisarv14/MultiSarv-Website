@@ -463,6 +463,13 @@ export interface ProductPrivacyInfo {
   dataSharingPolicy: string;
   dataRetention: string;
   specificNote?: string;
+  effectiveDate?: string;
+  lastUpdated?: string;
+  policySections?: {
+    heading: string;
+    paragraphs?: string[];
+    items?: string[];
+  }[];
 }
 
 export const PRODUCT_PRIVACY_DATA: Record<string, ProductPrivacyInfo> = {
@@ -525,11 +532,40 @@ export const PRODUCT_PRIVACY_DATA: Record<string, ProductPrivacyInfo> = {
     specificNote: "Business email content is stored on isolated IMAP/POP3 servers with TLS encryption. DomainLink staff cannot access mailbox content."
   },
   garageguru: {
-    dataCollected: ["Vehicle registration details and owner contact information", "Mechanical repair state logs and service bay timestamps", "Spare parts inventory transaction records", "Custom inspection photos uploaded during vehicle service"],
-    permissions: ["CAMERA – to capture vehicle inspection logs, mechanical issues, and custom service part barcodes", "READ_EXTERNAL_STORAGE – to retrieve local files and export service receipts"],
-    dataSharingPolicy: "No personal vehicle or diagnostic telemetry data is shared with any third-party advertising agents or marketing companies.",
-    dataRetention: "Vehicle service records are retained for 3 years for warranty and service history reference.",
-    specificNote: "Inspection photos are stored securely per vehicle record and are accessible only to the garage operator."
+    dataCollected: ["Customer name, mobile number, and address", "Vehicle registration number, make, model, fuel type, odometer reading, service history, and inspection reports", "Service estimates, labor charges, spare parts pricing, payment modes, discounts, and cashbook expenses", "Team member profiles, assigned roles, and access credentials"],
+    permissions: ["android.permission.CAMERA – to scan vehicle QR codes and barcodes and capture vehicle intake inspection photos", "READ_EXTERNAL_STORAGE / WRITE_EXTERNAL_STORAGE – to save, export, and download PDF invoices, estimates, and local backup files", "INTERNET / ACCESS_NETWORK_STATE – to process AI vehicle diagnostic queries and verify connectivity"],
+    dataSharingPolicy: "Garage Guru does not sell, rent, leak, or share garage customer records, vehicle databases, or financial revenue figures with third parties or competitors. Invoices shared through WhatsApp or SMS are transmitted directly using the device's native sharing capabilities.",
+    dataRetention: "Information remains stored locally in the app for as long as the garage user maintains the application on their device. Garage owners can edit or delete individual job cards, customers, or invoices at any time. Clearing app data or uninstalling the app permanently removes all locally stored records.",
+    specificNote: "Customer profiles, job cards, and billing logs are stored in an encrypted local Room database. Vehicle symptom inputs sent to the AI Diagnostic Assistant are processed without personal customer details such as names or phone numbers.",
+    effectiveDate: "August 12, 2026",
+    lastUpdated: "August 12, 2026",
+    policySections: [
+      {
+        heading: "Policy Overview",
+        paragraphs: ["Powered by MultiSarv India, Garage Guru is an all-in-one garage and auto repair management platform designed for garages, auto service centers, workshops, and independent mechanics.", "This Privacy Policy explains how the Garage Guru mobile application collects, uses, stores, and safeguards information entered by garage owners and users. By using Garage Guru, you agree to the collection and use of information in accordance with this Privacy Policy."]
+      },
+      {
+        heading: "How Information Is Used",
+        paragraphs: ["Data entered into Garage Guru is used exclusively to facilitate day-to-day garage operations."],
+        items: ["Creating job cards, digital repair estimates, and GST/Non-GST invoices for vehicle owners.", "Assisting mechanics with AI-powered diagnostic recommendations.", "Assigning repair tasks and tracking service status within workshops.", "Generating business analytics, daily income/expense summaries, and service reports."]
+      },
+      {
+        heading: "Data Ownership & Security",
+        paragraphs: ["All customer profiles, job cards, and billing logs are saved securely in an encrypted local database (Room) on the device.", "We do not sell, rent, leak, or share any garage's customer records, vehicle database, or financial revenue figures with third parties or competitors. Each garage's data remains private to them.", "Vehicle symptom inputs sent to the AI Diagnostic Assistant are processed without personal customer details such as names or phone numbers."]
+      },
+      {
+        heading: "Data Sharing & External Links",
+        paragraphs: ["Garage Guru does not host third-party advertisements or sell user tracking profiles. Information is shared only when explicitly initiated by the garage user.", "Invoices and estimates shared via WhatsApp or SMS are transmitted directly using the device's native sharing capabilities."]
+      },
+      {
+        heading: "Children's Privacy",
+        paragraphs: ["Garage Guru is a professional enterprise application for automotive businesses and adults. It is not intended for or directed toward children under 13 years of age."]
+      },
+      {
+        heading: "Policy Updates",
+        paragraphs: ["We may update this Privacy Policy from time to time to reflect new app capabilities or compliance requirements. Updates will be effective immediately upon publication of the updated policy."]
+      }
+    ]
   },
   cookiq: {
     dataCollected: ["User-created recipe catalogs and ingredient lists", "Pantry item depletion preferences and shopping cart data", "Food preference profiles and dietary filters", "Household shared grocery lists across devices"],
