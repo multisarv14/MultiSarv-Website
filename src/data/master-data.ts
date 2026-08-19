@@ -480,11 +480,65 @@ export const PRODUCT_PRIVACY_DATA: Record<string, ProductPrivacyInfo> = {
     specificNote: "All financial and contact data is stored under SSL-encrypted Firestore collections with role-based access rules."
   },
   societysarv: {
-    dataCollected: ["Resident member profiles and flat details", "Visitor gate-entry logs with timestamps", "Maintenance billing transactions and payment receipts", "Community notice dispatch records"],
-    permissions: ["CAMERA – to log security check photos and vehicle plates at society gates", "POST_NOTIFICATIONS – to send visitor approvals, billing alerts, and community notices"],
-    dataSharingPolicy: "Resident data is strictly isolated per housing society. No data is shared with any third party outside the organization.",
-    dataRetention: "Billing records are retained for 7 years in compliance with accounting standards. Visitor logs are retained for 1 year.",
-    specificNote: "All records are stored with SSL encryption inside dedicated Firestore databases with strict Firebase security rulesets."
+    dataCollected: [
+      "Flat/unit number, resident name, contact number, email address, ownership status (Owner/Tenant), and vehicle registration details",
+      "Maintenance bills, bill periods, dues amounts, payment status, payment receipts, payment mode (UPI/Cash/Bank Transfer), and society expense records",
+      "Visitor names, vehicle numbers, entry/exit timestamps, destination flat numbers, visitor categories, and visitor passcodes",
+      "Helpdesk issue descriptions, maintenance ticket categories, and ticket resolution statuses",
+      "App crash logs, device model, operating system version, and general telemetry used for performance monitoring and bug fixes"
+    ],
+    permissions: [
+      "INTERNET – to sync society records, notices, and payment statuses",
+      "STORAGE / MEDIA – to save and download PDF receipts, financial balance sheet reports, and maintenance statements",
+      "CAMERA (Optional) – to scan visitor passes or attach photos to maintenance complaints"
+    ],
+    dataSharingPolicy: "We do not sell, rent, or trade personal information to third parties or advertisers. Authorized Society Management Committee members may view unit ledgers, payment statuses, and visitor logs for administrative audits. Information may also be disclosed when required by applicable Indian laws, cooperative housing society regulations, or law enforcement requests.",
+    dataRetention: "Society administrators may request account closure and deletion of a resident profile when the resident moves out. Other society records are retained as needed for society administration, accounting, security, and legal compliance.",
+    specificNote: "Society data, accounting ledgers, and visitor logs are stored using local on-device databases (Room SQLite) and protected cloud backends with encryption in transit and at rest.",
+    effectiveDate: "August 18, 2026",
+    lastUpdated: "August 18, 2026",
+    policySections: [
+      {
+        heading: "Policy Overview",
+        paragraphs: ["SocietySarv (\"we\", \"our\", or \"us\") is dedicated to protecting the privacy and personal data of housing society residents, management committee members, accounting staff, and security personnel using the SocietySarv Android application."]
+      },
+      {
+        heading: "How We Use Your Information",
+        paragraphs: ["We use the collected information exclusively for housing society administrative purposes."],
+        items: [
+          "Generating and maintaining society maintenance bills, ledgers, and payment receipts.",
+          "Facilitating secure UPI payment QR generation and payment tracking.",
+          "Authorizing and logging visitor entries at the security gate.",
+          "Routing and resolving resident helpdesk complaints.",
+          "Publishing society circulars, notices, and financial balance sheets.",
+          "Providing English, Hindi, and Marathi localization according to user preference."
+        ]
+      },
+      {
+        heading: "Data Storage & Local Persistence",
+        paragraphs: ["Society data, accounting ledgers, and visitor logs are securely stored using local on-device databases (Room SQLite) and protected cloud backends with industry-standard encryption in transit and at rest."]
+      },
+      {
+        heading: "Data Security",
+        paragraphs: ["We implement strict administrative, technical, and physical security measures to safeguard personal data against unauthorized access, loss, alteration, or misuse."]
+      },
+      {
+        heading: "User Rights & Data Deletion",
+        paragraphs: ["Residents and society administrators may access, update, or correct personal and flat details. Residents may request account closure and deletion of their resident profile upon moving out of the society. Data deletion requests can be submitted using the contact details below."]
+      },
+      {
+        heading: "Children's Privacy",
+        paragraphs: ["SocietySarv is intended for adult residents, property owners, and housing society personnel. We do not knowingly collect personal information from children under 13."]
+      },
+      {
+        heading: "Changes to This Privacy Policy",
+        paragraphs: ["We may periodically update this Privacy Policy. Any modifications will be posted on this page with an updated Last Updated date."]
+      },
+      {
+        heading: "Contact Us",
+        paragraphs: ["For questions, concerns, or requests regarding this Privacy Policy or data handling in SocietySarv, contact the SocietySarv Team at ramdasraut9@gmail.com."]
+      }
+    ]
   },
   hrsarv: {
     dataCollected: ["Employee personal details, designation, and department", "Biometric and GPS geo-fenced attendance timestamps", "Leave applications and approval records", "Salary, bonus, and tax ledger data"],
