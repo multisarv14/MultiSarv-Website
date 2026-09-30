@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin, Lock, Shield, X } from "lucide-react";
-import { ALL_PRODUCTS, PRODUCTS, SERVICES } from "../../data/master-data";
-import logoMultiSarvCorporate from "../../assets/images/logo_multisarv_corporate_1781237621472.jpg";
+import { ALL_PRODUCTS } from "../../data/master-data";
+import logoMultiSarv from "../../assets/images/logo-multisarv.webp";
 
 // Terms modal embedded in footer
 function TermsModal({ onClose }: { onClose: () => void }) {
@@ -12,29 +12,29 @@ function TermsModal({ onClose }: { onClose: () => void }) {
         <div className="flex justify-between items-center sm:px-6 px-4 py-4 border-b border-slate-100 dark:border-slate-800 shrink-0">
           <div>
             <h3 className="font-display font-bold text-base sm:text-lg text-slate-950 dark:text-white flex items-center gap-2">
-              <Shield className="w-5 h-5 text-blue-500 animate-pulse" />
-              <span>Secure Terms of Use – MultiSarv India</span>
+              <Shield className="w-5 h-5 text-blue-500" />
+              <span>Terms of Use – MultiSarv</span>
             </h3>
             <p className="text-[10px] sm:text-[11px] text-slate-400 mt-0.5">Effective Date: June 2026</p>
           </div>
-          <button onClick={onClose} className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800/80 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors cursor-pointer">
+          <button onClick={onClose} aria-label="Close" className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800/80 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors cursor-pointer">
             <X className="w-5 h-5" />
           </button>
         </div>
         <div className="flex-grow p-5 sm:p-6 overflow-y-auto text-xs sm:text-sm text-slate-600 dark:text-slate-300 space-y-4 leading-relaxed font-sans">
           <p className="font-medium text-slate-800 dark:text-slate-100 bg-slate-50 dark:bg-slate-950 p-3 rounded-lg border border-slate-100 dark:border-slate-800">
-            Welcome to MultiSarv India. By accessing or using our website, applications, products, and services, you agree to comply with these Terms of Use.
+            Welcome to MultiSarv. By accessing or using our website, applications, products, and services, you agree to comply with these Terms of Use.
           </p>
           {[
             { title: "1. Acceptance of Terms", body: "By accessing our services, you acknowledge that you have read, understood, and agreed to these Terms of Use." },
-            { title: "2. Services", body: "MultiSarv India provides software products, SaaS platforms, mobile applications, websites, AI-powered solutions, CRM systems, and related technology services." },
+            { title: "2. Services", body: "MultiSarv provides software products, SaaS platforms, mobile applications, websites, AI-powered solutions, CRM systems, and related technology services." },
             { title: "3. User Responsibilities", body: "Users agree to provide accurate information, maintain confidentiality of account credentials, use services lawfully, not attempt unauthorized access, not distribute malware, and not misuse AI-generated outputs." },
-            { title: "4. Intellectual Property", body: "All content, software, logos, trademarks, designs, source code, and materials belong to MultiSarv India unless otherwise stated." },
+            { title: "4. Intellectual Property", body: "All content, software, logos, trademarks, designs, source code, and materials belong to MultiSarv unless otherwise stated." },
             { title: "5. AI Services Disclaimer", body: "AI-generated content may contain inaccuracies. Users should independently verify critical information before making decisions." },
             { title: "6. Security", body: "Users shall not attempt hacking or reverse engineering, circumvent security controls, access unauthorized data, or interfere with system operations." },
             { title: "7. Data Protection", body: "We implement industry-standard security measures to protect user information." },
-            { title: "8. Third-Party Services", body: "Our services may integrate with Google Firebase, Google Gemini, Google Analytics, WhatsApp, and Payment Gateways. We are not responsible for third-party service interruptions." },
-            { title: "9. Limitation of Liability", body: "MultiSarv India shall not be liable for indirect, incidental, or consequential damages arising from service usage." },
+            { title: "8. Third-Party Services", body: "Our services may integrate with Google Firebase, Google Analytics, WhatsApp, and payment gateways. We are not responsible for third-party service interruptions." },
+            { title: "9. Limitation of Liability", body: "MultiSarv shall not be liable for indirect, incidental, or consequential damages arising from service usage." },
             { title: "10. Termination", body: "We reserve the right to suspend or terminate accounts violating these terms." },
             { title: "11. Governing Law", body: "These terms shall be governed by the laws of India." },
             { title: "12. Contact", body: "Email: support@multisarv.com" },
@@ -68,11 +68,11 @@ export default function Footer() {
             {/* Brand */}
             <div className="space-y-4">
               <div className="flex items-center gap-2">
-                <img src={logoMultiSarvCorporate} alt="MultiSarv India" className="w-8 h-8 rounded-lg object-cover" referrerPolicy="no-referrer" />
-                <span className="font-display font-bold text-white text-base">MultiSarv India</span>
+                <img src={logoMultiSarv} alt="MultiSarv" width={32} height={32} loading="lazy" className="w-8 h-8 rounded-lg object-cover bg-white" />
+                <span className="font-display font-bold text-white text-base">MultiSarv</span>
               </div>
               <p className="text-xs text-slate-500 max-w-xs leading-relaxed font-sans">
-                Engineers of state-of-the-art secure real-time ERP databases. Powering Indian corporate hubs with serverless speed and high-level artificial intelligence integrations.
+                SaaS products, mobile apps and custom software for Indian businesses — built secure, fast and ready to scale.
               </p>
               <div className="text-xs text-slate-600">Tagline: "Innovate. Integrate. Inspire."</div>
             </div>
@@ -116,7 +116,6 @@ export default function Footer() {
                 <li><Link to="/about" className="hover:text-cyan-400 hover:underline">About Us</Link></li>
                 <li><Link to="/blogs" className="hover:text-cyan-400 hover:underline">Knowledge Base</Link></li>
                 <li><Link to="/contact" className="hover:text-cyan-400 hover:underline">Contact Us</Link></li>
-                <li><Link to="/sarvai" className="hover:text-cyan-400 hover:underline">SarvAI Assistant</Link></li>
               </ul>
             </div>
 
@@ -124,8 +123,8 @@ export default function Footer() {
             <div>
               <h4 className="font-mono text-xs uppercase font-bold text-white tracking-widest mb-3">Corporate Contacts</h4>
               <ul className="space-y-1 text-xs text-slate-500 font-mono mb-4">
-                <li className="flex items-center gap-1.5"><Mail className="w-3.5 h-3.5 text-slate-600" /><span>contact@multisarv.com</span></li>
-                <li className="flex items-center gap-1.5"><Phone className="w-3.5 h-3.5 text-slate-600" /><span>+91 9545 870 970</span></li>
+                <li className="flex items-center gap-1.5"><Mail className="w-3.5 h-3.5 text-slate-600" /><a href="mailto:contact@multisarv.com" className="hover:text-cyan-400">contact@multisarv.com</a></li>
+                <li className="flex items-center gap-1.5"><Phone className="w-3.5 h-3.5 text-slate-600" /><a href="tel:+919545870970" className="hover:text-cyan-400">+91 9545 870 970</a></li>
                 <li className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5 text-slate-600" /><span>Jagatguru Heights, Dehu, Pune, MH</span></li>
               </ul>
             </div>
@@ -134,14 +133,14 @@ export default function Footer() {
 
           <div className="pt-8 border-t border-slate-900/80 text-[10px] text-slate-600 flex flex-col sm:flex-row justify-between items-center gap-4">
             <div>
-              <span>© {new Date().getFullYear()} MultiSarv India, All technical rights secured.</span>
+              <span>© {new Date().getFullYear()} MultiSarv. All rights reserved.</span>
             </div>
             <div className="flex gap-4">
               <button
                 onClick={() => setShowTerms(true)}
                 className="hover:underline cursor-pointer focus:outline-none"
               >
-                Secure Terms of Use
+                Terms of Use
               </button>
               <Link to="/privacy" className="hover:underline cursor-pointer">
                 Privacy & Cookies Policies

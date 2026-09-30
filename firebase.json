@@ -6,11 +6,39 @@
       "**/.*",
       "**/node_modules/**"
     ],
-    "rewrites": [
+    "cleanUrls": true,
+    "trailingSlash": false,
+    "redirects": [
+      { "source": "/sarvai", "destination": "/contact", "type": 301 },
+      { "source": "/sandbox", "destination": "/contact", "type": 301 }
+    ],
+    "headers": [
+      {
+        "source": "/assets/**",
+        "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        ]
+      },
+      {
+        "source": "**/*.html",
+        "headers": [
+          { "key": "Cache-Control", "value": "no-cache" }
+        ]
+      },
       {
         "source": "**",
-        "destination": "/index.html"
+        "headers": [
+          { "key": "X-Content-Type-Options", "value": "nosniff" },
+          { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+          { "key": "X-Frame-Options", "value": "SAMEORIGIN" }
+        ]
       }
     ]
-  }
+  },
+  "firestore": [
+    {
+      "database": "ai-studio-1ea9ea92-0159-4611-b3c6-b1bf4de0d59e",
+      "rules": "firestore.rules"
+    }
+  ]
 }

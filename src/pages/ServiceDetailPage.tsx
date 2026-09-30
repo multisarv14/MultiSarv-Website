@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { SERVICES } from "../data/master-data";
 import { useSEO } from "../hooks/useSEO";
+import { NOT_FOUND_META, serviceMeta } from "../seo";
 
 function ServiceIcon({ icon, size = "w-8 h-8" }: { icon: string; size?: string }) {
   const map: Record<string, React.ReactNode> = {
@@ -25,10 +26,7 @@ export default function ServiceDetailPage() {
   const { id } = useParams<{ id: string }>();
   const service = SERVICES.find((s) => s.id === id);
 
-  useSEO({
-    title: service ? `${service.name} — MultiSarv Services` : "Service Not Found",
-    description: service?.shortDesc
-  });
+  useSEO(service ? serviceMeta(service) : NOT_FOUND_META);
 
   if (!service) {
     return (
@@ -108,10 +106,10 @@ export default function ServiceDetailPage() {
       <div className="bg-slate-900 text-white rounded-3xl p-8 border border-slate-800 flex flex-col md:flex-row justify-between items-center gap-6">
         <div>
           <h3 className="font-display font-bold text-xl">Ready to get started with {service.name}?</h3>
-          <p className="text-xs text-slate-400 mt-2 max-w-md">Use our AI-powered proposal generator to get a custom technical blueprint and pricing estimate for your project.</p>
+          <p className="text-xs text-slate-400 mt-2 max-w-md">Share your project details and we will send you a technical plan and pricing estimate.</p>
         </div>
-        <Link to="/sandbox" className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl flex items-center gap-2 shrink-0 transition-transform hover:scale-103">
-          <span>Generate Proposal</span>
+        <Link to={`/contact?service=${encodeURIComponent(service.name)}`} className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl flex items-center gap-2 shrink-0 transition-transform hover:scale-103">
+          <span>Request a Proposal</span>
           <ArrowRight className="w-4 h-4" />
         </Link>
       </div>

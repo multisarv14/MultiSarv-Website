@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Building, Shield, HeartPulse, Users, CheckCircle } from "lucide-react";
 import { CASE_STUDIES } from "../data/master-data";
 import { useSEO } from "../hooks/useSEO";
+import { PAGE_META } from "../seo";
 
 const industryIconMap: Record<string, React.ReactNode> = {
   "Real Estate": <Building className="w-5 h-5" />,
@@ -12,10 +13,7 @@ const industryIconMap: Record<string, React.ReactNode> = {
 };
 
 export default function CaseStudiesPage() {
-  useSEO({
-    title: "Case Studies — MultiSarv Client Success Stories",
-    description: "Discover how MultiSarv India helped Singhal Builders, Orchid Hills Heights, Nair Diagnostic Center and more transform their operations with SaaS solutions."
-  });
+  useSEO(PAGE_META["/case-studies"]);
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
@@ -25,7 +23,7 @@ export default function CaseStudiesPage() {
         <span className="text-blue-600 dark:text-cyan-400 font-mono font-bold text-xs uppercase tracking-widest">Client Success Stories</span>
         <h1 className="text-3xl sm:text-4xl font-display font-bold text-slate-950 dark:text-white">Real Results. Real Businesses.</h1>
         <p className="max-w-xl mx-auto text-sm text-slate-500 leading-relaxed">
-          See how MultiSarv India's products have transformed operations for real estate firms, housing societies, hospitals, and enterprises across India.
+          See how MultiSarv's products have transformed operations for real estate firms, housing societies, hospitals, and enterprises across India.
         </p>
       </div>
 
@@ -147,12 +145,9 @@ export default function CaseStudiesPage() {
         <h2 className="text-2xl font-display font-bold">Ready to write your own success story?</h2>
         <p className="text-slate-400 text-sm max-w-lg mx-auto">Join 220+ businesses across India who have transformed their operations with MultiSarv's enterprise SaaS solutions.</p>
         <div className="flex flex-wrap justify-center gap-4">
-          <Link to="/sandbox" className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl inline-flex items-center gap-2 transition-transform hover:scale-103">
-            <span>Get AI Lead Qualification</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-          <Link to="/contact" className="border border-slate-700 hover:border-slate-500 text-slate-300 font-bold text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl inline-flex items-center gap-2 transition-all">
+          <Link to="/contact" className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl inline-flex items-center gap-2 transition-transform hover:scale-103">
             <span>Talk to Our Team</span>
+            <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       </div>

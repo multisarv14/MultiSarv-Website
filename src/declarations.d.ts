@@ -8,7 +8,7 @@ declare module "*.jpg" {
   export default content;
 }
 
-declare module "*.jpeg" {
+declare module "*.webp" {
   const content: string;
   export default content;
 }

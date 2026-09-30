@@ -1,12 +1,13 @@
 import React from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   Building, Shield, Users, TrendingUp, Award, HeartPulse,
   Briefcase, Globe, Database, Wrench, Utensils, Tv,
-  CheckSquare, ArrowRight, ArrowLeft, Sparkles, ChevronRight, Lock
+  CheckSquare, ArrowRight, ArrowLeft, ChevronRight, Lock, Mail
 } from "lucide-react";
 import { ALL_PRODUCTS } from "../data/master-data";
 import { useSEO } from "../hooks/useSEO";
+import { NOT_FOUND_META, productMeta } from "../seo";
 
 function ProductIcon({ id }: { id: string }) {
   const map: Record<string, React.ReactNode> = {
@@ -29,13 +30,9 @@ function ProductIcon({ id }: { id: string }) {
 
 export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
   const product = ALL_PRODUCTS.find((p) => p.id === id);
 
-  useSEO({
-    title: product ? `${product.name} — ${product.tagline}` : "Product Not Found",
-    description: product?.description
-  });
+  useSEO(product ? productMeta(product) : NOT_FOUND_META);
 
   if (!product) {
     return (
@@ -71,7 +68,7 @@ export default function ProductDetailPage() {
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800 pb-6">
           <div className="flex items-center gap-4">
             {product.logoUrl ? (
-              <img src={product.logoUrl} alt={`${product.name} Logo`} className="w-24 h-24 rounded-3xl object-cover bg-white border border-slate-200 shadow-md select-none" referrerPolicy="no-referrer" />
+              <img src={product.logoUrl} alt={`${product.name} Logo`} width={96} height={96} className="w-24 h-24 rounded-3xl object-cover bg-white border border-slate-200 shadow-md select-none" referrerPolicy="no-referrer" />
             ) : (
               <div className="w-24 h-24 rounded-3xl bg-blue-50 dark:bg-sky-950/40 text-blue-600 dark:text-cyan-400 flex items-center justify-center">
                 <ProductIcon id={product.id} />
@@ -86,12 +83,11 @@ export default function ProductDetailPage() {
           </div>
           <div className="flex flex-wrap gap-2">
             <Link
-              to="/sandbox"
-              state={{ product: product.name }}
+              to={`/contact?product=${encodeURIComponent(product.name)}`}
               className="bg-orange-500 hover:bg-orange-400 text-white font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-xl transition-all flex items-center gap-2"
             >
-              <Sparkles className="w-4 h-4" />
-              <span>Draft Custom Proposal</span>
+              <Mail className="w-4 h-4" />
+              <span>Request a Quote</span>
             </Link>
             <Link
               to={`/privacy/${product.id}`}
@@ -146,12 +142,12 @@ export default function ProductDetailPage() {
               <div className="absolute top-2 right-2 bg-emerald-500 text-white font-mono text-[8px] font-extrabold px-1.5 py-0.5 rounded-full uppercase">Evaluation</div>
               <div className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-semibold">STARTER PLAN</div>
               <div className="text-base sm:text-lg font-bold text-slate-950 dark:text-white font-mono">{product.pricing.starter || "₹0 / Free"}</div>
-              <div className="text-[10px] text-slate-500 mt-1">Evaluation sandbox. Basic read/write and evaluation logs.</div>
+              <div className="text-[10px] text-slate-500 mt-1">Free evaluation with core features.</div>
             </div>
             <div className="border border-slate-100 dark:border-slate-800 p-4 rounded-xl space-y-1 bg-white dark:bg-slate-950 shadow-sm">
               <div className="text-[10px] font-mono text-slate-400 uppercase font-semibold">Standard Platform</div>
               <div className="text-base sm:text-lg font-bold text-slate-950 dark:text-white font-mono">{product.pricing.standard}</div>
-              <div className="text-[10px] text-slate-500 mt-1">Billed monthly. Standard Firebase rules mapping.</div>
+              <div className="text-[10px] text-slate-500 mt-1">All core features for growing teams.</div>
             </div>
             <div className="border border-blue-500 dark:border-cyan-500 p-4 rounded-xl space-y-1 bg-blue-50/20 dark:bg-sky-950/25 shadow-sm relative">
               <div className="absolute top-2 right-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-mono text-[8px] font-extrabold px-1.5 py-0.5 rounded-full uppercase">Popular</div>
@@ -172,14 +168,13 @@ export default function ProductDetailPage() {
       <div className="bg-slate-900 text-white rounded-3xl p-6 border border-slate-800 flex flex-col md:flex-row justify-between items-center gap-6">
         <div>
           <h4 className="font-display font-semibold text-lg text-white">Interested in onboarding MultiSarv {product.name}?</h4>
-          <p className="text-xs text-slate-400 mt-1">Submit your workspace constraints in the AI Lead Qualifications form for direct account assessment.</p>
+          <p className="text-xs text-slate-400 mt-1">Tell us about your requirements and our team will get back to you with a demo and pricing.</p>
         </div>
         <Link
-          to="/sandbox"
-          state={{ product: product.name }}
+          to={`/contact?product=${encodeURIComponent(product.name)}`}
           className="bg-white hover:bg-slate-100 text-slate-900 font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-xl flex items-center gap-1 shrink-0 transition-transform hover:scale-103"
         >
-          <span>Request Demo & Score</span>
+          <span>Request a Demo</span>
           <ArrowRight className="w-4 h-4 text-orange-500" />
         </Link>
       </div>
@@ -192,7 +187,7 @@ export default function ProductDetailPage() {
             <Link key={prod.id} to={`/products/${prod.id}`} className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 hover:border-blue-400 transition-all group">
               <div className="flex items-center gap-3 mb-3">
                 {prod.logoUrl ? (
-                  <img src={prod.logoUrl} alt={prod.name} className="w-10 h-10 rounded-xl object-cover" referrerPolicy="no-referrer" />
+                  <img src={prod.logoUrl} alt={prod.name} width={40} height={40} loading="lazy" className="w-10 h-10 rounded-xl object-cover" referrerPolicy="no-referrer" />
                 ) : (
                   <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-sky-950/40 text-blue-600 dark:text-cyan-400 flex items-center justify-center">
                     <ProductIcon id={prod.id} />

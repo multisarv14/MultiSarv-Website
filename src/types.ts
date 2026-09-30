@@ -27,7 +27,6 @@ export interface Blog {
   date: string;
   readTime: string;
   published: boolean;
-  isAiGenerated?: boolean;
 }
 
 export interface ProductDetails {
@@ -46,13 +45,6 @@ export interface ProductDetails {
     enterprise: string;
     support: string;
   };
-}
-
-export interface ChatMessage {
-  id: string;
-  sender: "user" | "sarvai";
-  text: string;
-  timestamp: string;
 }
 
 export interface ServiceDetail {

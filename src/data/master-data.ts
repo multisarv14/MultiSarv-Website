@@ -1,12 +1,12 @@
-import logoRealtySarv from "../assets/images/logo_realtysarv_white_1781256158322.jpg";
-import logoSocietySarv from "../assets/images/logo_societysarv_white_1781256172859.jpg";
-import logoHRSarv from "../assets/images/logo_hrsarv_white_1781256191666.jpg";
-import logoFinSarv from "../assets/images/logo_finsarv_white_1781256204256.jpg";
-import logoEduSarv from "../assets/images/logo_edusarv_white_1781256221439.jpg";
-import logoHealthSarv from "../assets/images/logo_healthsarv_white_1781256234953.jpg";
-import logoRealtyConnect from "../assets/images/logo_realtyconnect_white_1781256249795.jpg";
-import logoOnlineSarv from "../assets/images/logo_onlinesarv_white_1781256263639.jpg";
-import logoDomainLink from "../assets/images/logo_domainlink_white_1781256279260.jpg";
+import logoRealtySarv from "../assets/images/logo-realtysarv.webp";
+import logoSocietySarv from "../assets/images/logo-societysarv.webp";
+import logoHRSarv from "../assets/images/logo-hrsarv.webp";
+import logoFinSarv from "../assets/images/logo-finsarv.webp";
+import logoEduSarv from "../assets/images/logo-edusarv.webp";
+import logoHealthSarv from "../assets/images/logo-healthsarv.webp";
+import logoRealtyConnect from "../assets/images/logo-realtyconnect.webp";
+import logoOnlineSarv from "../assets/images/logo-onlinesarv.webp";
+import logoDomainLink from "../assets/images/logo-domainlink.webp";
 
 import { ProductDetails, ServiceDetail } from "../types";
 
@@ -536,7 +536,7 @@ export const PRODUCT_PRIVACY_DATA: Record<string, ProductPrivacyInfo> = {
       },
       {
         heading: "Contact Us",
-        paragraphs: ["For questions, concerns, or requests regarding this Privacy Policy or data handling in SocietySarv, contact the SocietySarv Team at ramdasraut9@gmail.com."]
+        paragraphs: ["For questions, concerns, or requests regarding this Privacy Policy or data handling in SocietySarv, contact the SocietySarv Team at support@multisarv.com."]
       }
     ]
   },
@@ -596,7 +596,7 @@ export const PRODUCT_PRIVACY_DATA: Record<string, ProductPrivacyInfo> = {
     policySections: [
       {
         heading: "Policy Overview",
-        paragraphs: ["Powered by MultiSarv India, Garage Guru is an all-in-one garage and auto repair management platform designed for garages, auto service centers, workshops, and independent mechanics.", "This Privacy Policy explains how the Garage Guru mobile application collects, uses, stores, and safeguards information entered by garage owners and users. By using Garage Guru, you agree to the collection and use of information in accordance with this Privacy Policy."]
+        paragraphs: ["Powered by MultiSarv, Garage Guru is an all-in-one garage and auto repair management platform designed for garages, auto service centers, workshops, and independent mechanics.", "This Privacy Policy explains how the Garage Guru mobile application collects, uses, stores, and safeguards information entered by garage owners and users. By using Garage Guru, you agree to the collection and use of information in accordance with this Privacy Policy."]
       },
       {
         heading: "How Information Is Used",
@@ -642,79 +642,6 @@ export const PRODUCT_PRIVACY_DATA: Record<string, ProductPrivacyInfo> = {
     specificNote: "NOAI connects people with verified workers. All identity documents submitted for verification are encrypted and accessible only to authorized compliance reviewers."
   }
 };
-
-export const FIRESTORE_RULES_TEXT = `rules_version = '2';
-
-service cloud.firestore {
-  match /databases/{database}/documents {
-
-    function isAuthenticated() {
-      return request.auth != null;
-    }
-
-    function isAdmin() {
-      return request.auth != null
-        && request.auth.token.role == "admin";
-    }
-
-    function isManager() {
-      return request.auth != null
-        && request.auth.token.role == "manager";
-    }
-
-    function isOwner(userId) {
-      return request.auth.uid == userId;
-    }
-
-    // Users Collection
-    match /users/{userId} {
-      allow read: if isAuthenticated();
-      allow create: if isAuthenticated();
-      allow update: if isOwner(userId) || isAdmin();
-      allow delete: if isAdmin();
-    }
-
-    // Leads Collection
-    match /leads/{leadId} {
-      allow read: if isAuthenticated();
-      allow create: if isAuthenticated();
-      allow update: if isAuthenticated();
-      allow delete: if isAdmin();
-    }
-
-    // Products Collection
-    match /products/{productId} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
-
-    // Blogs Collection
-    match /blogs/{blogId} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
-
-    // Contact Forms
-    match /contactForms/{docId} {
-      allow create: if true;
-      allow read: if isAdmin();
-      allow update: if isAdmin();
-      allow delete: if isAdmin();
-    }
-
-    // Settings
-    match /settings/{docId} {
-      allow read: if isAuthenticated();
-      allow write: if isAdmin();
-    }
-
-    // Audit Logs
-    match /auditLogs/{logId} {
-      allow read: if isAdmin();
-      allow write: if false; // Strict Server-side generation only
-    }
-  }
-}`;
 
 // Case studies data
 export interface CaseStudy {

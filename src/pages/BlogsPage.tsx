@@ -1,12 +1,30 @@
-import React, { useState } from "react";
-import { Bot, Copy, Calendar, Clock, Tag } from "lucide-react";
-import { useAppContext } from "../contexts/AppContext";
+import React, { useEffect, useState } from "react";
+import { BookOpen, Check, Copy, Calendar, Clock, Tag } from "lucide-react";
+import { collection, onSnapshot } from "firebase/firestore";
+import { db } from "../lib/firebase";
 import { useSEO } from "../hooks/useSEO";
+import { PAGE_META, SITE_URL } from "../seo";
 import { Blog } from "../types";
 
+const DEFAULT_BLOGS: Blog[] = [
+  {
+    id: "B-101",
+    title: "Transforming Indian Retail Pipelines with Real-time ERPs",
+    snippet: "How businesses use cloud databases and secure access rules to move from spreadsheets to live, auto-syncing operations.",
+    content: `## Transforming Indian Retail Pipelines with Real-time ERPs\n\nModern businesses are rapidly shifting from paper spreadsheets toward live, auto-syncing cloud databases.\n\n### Key pillars of multi-tenant serverless models\n1. **Low Memory Overhead:** Load assets dynamically.\n2. **Deterministic Rules Engine:** Restrict database modifications via secure rules without continuous server checks.\n3. **Responsive Client Layouts:** Use CSS with robust screen media blocks.\n\nUsing MultiSarv's specialized services, organizations can upgrade legacy billing workflows quickly.`,
+    category: "Business Automation",
+    keywords: ["SaaS", "Automation", "Cloud Security"],
+    metaDescription: "Learn how modern Indian businesses use cloud data structures to automate manual accounting procedures.",
+    date: "2026-06-08",
+    readTime: "4 min read",
+    published: true
+  }
+];
+
 function BlogCard({ blog }: { blog: Blog }) {
+  const [copied, setCopied] = useState(false);
   return (
-    <article className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-100 dark:border-slate-800 shadow-sm relative flex flex-col justify-between hover:border-blue-400 dark:hover:border-blue-500 transition-all">
+    <article id={blog.id} className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-100 dark:border-slate-800 shadow-sm relative flex flex-col justify-between hover:border-blue-400 dark:hover:border-blue-500 transition-all">
       <span className="absolute top-6 right-6 text-[10px] font-mono font-bold bg-slate-100 dark:bg-slate-800 text-slate-500 px-2 py-0.5 rounded flex items-center gap-1">
         <Calendar className="w-2.5 h-2.5" />{blog.date}
       </span>
@@ -15,12 +33,6 @@ function BlogCard({ blog }: { blog: Blog }) {
           <span className="bg-orange-50 dark:bg-orange-950/20 text-orange-600 dark:text-orange-400 text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full font-mono">
             {blog.category}
           </span>
-          {blog.isAiGenerated && (
-            <span className="bg-cyan-50 dark:bg-sky-950/40 text-cyan-600 dark:text-cyan-400 text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
-              <Bot className="w-3 h-3" />
-              <span>AI Written</span>
-            </span>
-          )}
         </div>
         <h3 className="text-lg sm:text-xl font-display font-bold text-slate-950 dark:text-white leading-snug pr-16">
           {blog.title}
@@ -44,14 +56,19 @@ function BlogCard({ blog }: { blog: Blog }) {
           )}
         </div>
         <button
-          onClick={() => {
-            navigator.clipboard.writeText(`${blog.title} — MultiSarv India`);
-            alert("Blog title copied to clipboard!");
+          onClick={async () => {
+            try {
+              await navigator.clipboard.writeText(`${SITE_URL}/blogs#${blog.id}`);
+              setCopied(true);
+              setTimeout(() => setCopied(false), 2000);
+            } catch {
+              // Clipboard unavailable (e.g. insecure context); nothing to do.
+            }
           }}
           className="text-blue-600 dark:text-cyan-400 font-bold text-xs uppercase tracking-widest flex items-center gap-1 hover:underline cursor-pointer"
         >
-          <Copy className="w-3.5 h-3.5" />
-          <span>Copy Link</span>
+          {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+          <span>{copied ? "Copied" : "Copy Link"}</span>
         </button>
       </div>
     </article>
@@ -59,12 +76,25 @@ function BlogCard({ blog }: { blog: Blog }) {
 }
 
 export default function BlogsPage() {
-  useSEO({
-    title: "Blogs — MultiSarv Knowledge Base",
-    description: "Read MultiSarv India's expert articles on Firebase architecture, AI integration, business automation, cloud security, and enterprise SaaS strategies."
-  });
+  useSEO(PAGE_META["/blogs"]);
 
-  const { blogs } = useAppContext();
+  const [blogs, setBlogs] = useState<Blog[]>(DEFAULT_BLOGS);
+
+  useEffect(() => {
+    const unsub = onSnapshot(
+      collection(db, "blogs"),
+      (snapshot) => {
+        const list: Blog[] = [];
+        snapshot.forEach((d) => list.push({ id: d.id, ...d.data() } as Blog));
+        const published = list
+          .filter((b) => b.published !== false)
+          .sort((a, b) => String(b.date ?? "").localeCompare(String(a.date ?? "")));
+        setBlogs(published.length > 0 ? published : DEFAULT_BLOGS);
+      },
+      () => setBlogs(DEFAULT_BLOGS)
+    );
+    return () => unsub();
+  }, []);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   const categories = ["all", ...Array.from(new Set(blogs.map((b) => b.category)))];
@@ -98,9 +128,9 @@ export default function BlogsPage() {
       {/* Blog Grid */}
       {filtered.length === 0 ? (
         <div className="text-center py-20 space-y-4">
-          <Bot className="w-16 h-16 text-slate-300 dark:text-slate-700 mx-auto" />
+          <BookOpen className="w-16 h-16 text-slate-300 dark:text-slate-700 mx-auto" />
           <h3 className="font-display font-bold text-xl text-slate-950 dark:text-white">No articles yet</h3>
-          <p className="text-sm text-slate-500">Our AI blog writer is warming up. Check back soon!</p>
+          <p className="text-sm text-slate-500">New articles are coming soon. Check back later!</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

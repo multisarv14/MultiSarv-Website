@@ -1,13 +1,13 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
-  Sparkles, ArrowRight, Bot, Building, Shield, Users, TrendingUp,
+  Sparkles, ArrowRight, Building, Shield, Users, TrendingUp,
   Award, HeartPulse, Briefcase, Globe, Database, Wrench, Utensils, Tv,
-  Code, Activity, Layers, ChevronRight, Send
+  Code, Activity, Layers, ChevronRight
 } from "lucide-react";
-import { PRODUCTS, SERVICES } from "../data/master-data";
-import { useAppContext } from "../contexts/AppContext";
+import { ALL_PRODUCTS, PRODUCTS, SERVICES } from "../data/master-data";
 import { useSEO } from "../hooks/useSEO";
+import { PAGE_META } from "../seo";
 
 function ProductIcon({ id }: { id: string }) {
   const iconMap: Record<string, React.ReactNode> = {
@@ -38,13 +38,7 @@ function ServiceIconComp({ icon }: { icon: string }) {
 }
 
 export default function HomePage() {
-  useSEO({
-    title: "MultiSarv India | Innovate. Integrate. Inspire.",
-    description: "MultiSarv India — Premium Enterprise ERP & SaaS Suite. Real Estate CRM, HR, Finance, Healthcare, Education, and AI-powered solutions for Indian businesses."
-  });
-
-  const { chatMessages, chatInput, setChatInput, chatLoading, chatEndRef, handleChatSubmit } = useAppContext();
-  const navigate = useNavigate();
+  useSEO(PAGE_META["/"]);
 
   return (
     <div>
@@ -58,7 +52,7 @@ export default function HomePage() {
             <span>Premium Enterprise ERP & SaaS Suite for Growing Businesses</span>
           </div>
           <h1 className="text-4xl sm:text-6xl md:text-7xl font-display font-extrabold tracking-tight leading-tight bg-gradient-to-r from-blue-400 via-cyan-400 to-orange-400 bg-clip-text text-transparent">
-            MultiSarv India
+            MultiSarv
           </h1>
           <p className="text-lg sm:text-2xl md:text-3xl font-display font-bold bg-gradient-to-r from-blue-400 via-cyan-400 to-orange-400 bg-clip-text text-transparent tracking-wide">
             Innovate. Integrate. Inspire.
@@ -71,21 +65,21 @@ export default function HomePage() {
               to="/products"
               className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 px-8 py-3.5 rounded-xl font-bold uppercase tracking-wider text-xs flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25 transition-all text-white"
             >
-              <span>Explore {PRODUCTS.length} Star Products</span>
+              <span>Explore {PRODUCTS.length} Products</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
-            <button
-              onClick={() => document.getElementById("ai-quick-assistant")?.scrollIntoView({ behavior: "smooth" })}
+            <Link
+              to="/contact"
               className="w-full sm:w-auto bg-slate-900/80 border border-slate-800 hover:border-slate-700 px-8 py-3.5 rounded-xl font-bold uppercase tracking-wider text-xs flex items-center justify-center gap-2 transition-all text-slate-300"
             >
-              <span>Interrogate SarvAI</span>
-            </button>
+              <span>Talk to Our Team</span>
+            </Link>
           </div>
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-12 max-w-4xl mx-auto text-left border-t border-slate-900 mt-12 bg-slate-900/20 p-6 rounded-2xl backdrop-blur-sm">
             {[
               { label: "India-wide Clients", val: "220+" },
-              { label: "SaaS Business Suites", val: "13 Ready" },
+              { label: "Products & Platforms", val: `${ALL_PRODUCTS.length}` },
               { label: "Platform System Uptime", val: "99.9%" },
               { label: "Active Business Users", val: "15,000+" }
             ].map((m, i) => (
@@ -115,7 +109,7 @@ export default function HomePage() {
               <div className="space-y-4">
                 <div className="flex justify-between items-start">
                   {prod.logoUrl ? (
-                    <img src={prod.logoUrl} alt={`${prod.name} Logo`} className="w-16 h-16 rounded-2xl object-cover bg-white border border-slate-200/80 shadow-sm group-hover:scale-110 transition-transform select-none" referrerPolicy="no-referrer" />
+                    <img src={prod.logoUrl} alt={`${prod.name} Logo`} width={64} height={64} loading="lazy" className="w-16 h-16 rounded-2xl object-cover bg-white border border-slate-200/80 shadow-sm group-hover:scale-110 transition-transform select-none" referrerPolicy="no-referrer" />
                   ) : (
                     <div className="p-3 bg-blue-50 dark:bg-sky-950/40 text-blue-600 dark:text-cyan-400 rounded-xl group-hover:scale-110 transition-transform">
                       <ProductIcon id={prod.id} />
@@ -145,7 +139,7 @@ export default function HomePage() {
           <div className="text-center space-y-3 mb-12">
             <h2 className="text-sm font-bold tracking-widest text-orange-600 dark:text-orange-400 uppercase font-mono">Our Capabilities</h2>
             <h3 className="text-2xl sm:text-3xl font-display font-bold text-slate-950 dark:text-white">Exceptional Corporate Software Services</h3>
-            <p className="max-w-xl mx-auto text-xs sm:text-sm text-slate-500">Unlocking modern paradigms using high-availability server structures and AI classifiers.</p>
+            <p className="max-w-xl mx-auto text-xs sm:text-sm text-slate-500">Custom software, mobile apps and cloud solutions built around your business.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {SERVICES.slice(0, 3).map((serv) => (
@@ -181,7 +175,7 @@ export default function HomePage() {
           <div className="space-y-4 text-center lg:text-left">
             <span className="text-blue-600 dark:text-cyan-400 font-mono font-bold text-xs uppercase tracking-widest">Industry Reviews</span>
             <h3 className="text-2xl sm:text-3xl font-display font-bold text-slate-950 dark:text-white">Trusted by Leading Enterprises</h3>
-            <p className="text-sm text-slate-500 leading-relaxed">See how prominent real estate leaders, diagnostic clinical hospitals, and institutional administrators simplify their administrative duties with MultiSarv India.</p>
+            <p className="text-sm text-slate-500 leading-relaxed">See how prominent real estate leaders, diagnostic clinical hospitals, and institutional administrators simplify their administrative duties with MultiSarv.</p>
             <div className="hidden lg:block pt-4">
               <Link to="/case-studies" className="bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-5 py-2.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all inline-block">
                 View Case Studies
@@ -206,52 +200,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* AI QUICK CHAT */}
-      <section id="ai-quick-assistant" className="bg-slate-950 text-white/90 py-12 border-t border-slate-900">
-        <div className="max-w-5xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="md:col-span-1 space-y-4">
-            <div className="inline-flex items-center gap-2 bg-emerald-950 text-emerald-400 border border-emerald-900/50 px-2.5 py-1 rounded-full text-[10px] font-mono tracking-widest uppercase">
-              <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-ping" />
-              <span>SarvAI Expert Agent Online</span>
-            </div>
-            <h3 className="text-xl sm:text-2xl font-display font-bold">Chat directly with India solutions core</h3>
-            <p className="text-xs text-slate-400 leading-relaxed font-sans">Ask queries about platform pricing, technical specifications, and CRM customizations. Our AI is loaded with context from MultiSarv's entire suite.</p>
-          </div>
-          <div className="md:col-span-2 bg-slate-900 rounded-2xl border border-slate-800/80 p-4 flex flex-col h-[320px]">
-            <div className="flex-grow overflow-y-auto space-y-3 pr-2 scrollbar-thin">
-              {chatMessages.map((msg) => (
-                <div key={msg.id} className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}>
-                  <div className={`max-w-[85%] rounded-2xl p-3 text-xs ${msg.sender === "user" ? "bg-gradient-to-r from-blue-600 to-cyan-500 text-white" : "bg-slate-800 text-slate-200 border border-slate-700/60"}`}>
-                    {msg.text}
-                  </div>
-                </div>
-              ))}
-              {chatLoading && (
-                <div className="flex justify-start">
-                  <div className="bg-slate-800 text-slate-400 space-x-1 p-3 rounded-2xl text-[10px] font-mono flex items-center">
-                    <span className="w-1.5 h-1.5 rounded-full bg-slate-400 animate-bounce" />
-                    <span className="w-1.5 h-1.5 rounded-full bg-slate-400 animate-bounce [animation-delay:0.2s]" />
-                    <span className="w-1.5 h-1.5 rounded-full bg-slate-400 animate-bounce [animation-delay:0.4s]" />
-                  </div>
-                </div>
-              )}
-              <div ref={chatEndRef} />
-            </div>
-            <form onSubmit={handleChatSubmit} className="mt-3 flex gap-2 pt-3 border-t border-slate-800">
-              <input
-                type="text"
-                value={chatInput}
-                onChange={(e) => setChatInput(e.target.value)}
-                placeholder="Ask MultiSarv AI..."
-                className="flex-grow bg-slate-950/70 text-xs text-white border border-slate-800 focus:border-cyan-500/80 placeholder-slate-500 rounded-xl px-4 py-2.5 outline-none font-sans"
-              />
-              <button type="submit" className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 px-4 py-2.5 rounded-xl flex items-center justify-center transition-all cursor-pointer shadow-md">
-                <Send className="w-4 h-4" />
-              </button>
-            </form>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

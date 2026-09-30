@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import {
-  Bot,
   Check,
   ChevronRight,
   Globe,
@@ -15,18 +14,14 @@ import {
 } from "lucide-react";
 import { ALL_PRODUCTS, PRODUCT_PRIVACY_DATA } from "../data/master-data";
 import { useSEO } from "../hooks/useSEO";
+import { PAGE_META, privacyMeta } from "../seo";
 
 export default function PrivacyPage() {
   const { id } = useParams();
   const selectedProduct = id ? ALL_PRODUCTS.find((p) => p.id === id) : null;
   const privacyInfo = id ? PRODUCT_PRIVACY_DATA[id] : null;
 
-  useSEO({
-    title: selectedProduct ? `${selectedProduct.name} — Privacy Policy` : "Privacy & Cookies Policies",
-    description: selectedProduct
-      ? `Read the privacy policy for ${selectedProduct.name} by MultiSarv India.`
-      : "Review MultiSarv India's privacy practices, cookies policy, and product-specific privacy disclosures.",
-  });
+  useSEO(selectedProduct ? privacyMeta(selectedProduct) : PAGE_META["/privacy"]);
 
   return (
     <div id="privacy-tab-pane" className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8 animate-fade-in font-sans">
@@ -51,7 +46,7 @@ export default function PrivacyPage() {
             {selectedProduct ? `${selectedProduct.name} — Privacy Policy` : "Privacy & Cookies Policies"}
           </h1>
           <p className="max-w-lg mx-auto text-sm text-slate-500 dark:text-slate-400">
-            MultiSarv India respects your privacy and is committed to protecting your personal data in accordance with modern digital protection standards.
+            MultiSarv respects your privacy and is committed to protecting your personal data in accordance with modern digital protection standards.
           </p>
           <p className="text-xs text-slate-400 dark:text-slate-500">
             Effective Date: {privacyInfo?.effectiveDate || "June 2026"}
@@ -204,7 +199,7 @@ export default function PrivacyPage() {
             <div>
               <h4 className="font-semibold text-slate-900 dark:text-white text-sm">Introduction & Core Promise</h4>
               <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm mt-1">
-                MultiSarv India is built on the foundation of transparency, integrity, and absolute client trust. We never monetize or rent your corporate data, and all digital communications are guarded by rigorous zero-trust security profiles.
+                MultiSarv is built on the foundation of transparency, integrity, and absolute client trust. We never monetize or rent your corporate data, and all digital communications are guarded by rigorous zero-trust security profiles.
               </p>
             </div>
           </div>
@@ -266,7 +261,6 @@ export default function PrivacyPage() {
                 "Review, catalog, and reply to client inquiries",
                 "Audit billing trails and manage secure licensing",
                 "Analyze website parameters & server load",
-                "Supercharge context queries via Google Gemini AI APIs",
               ].map((item, idx) => (
                 <div key={idx} className="flex items-center gap-2">
                   <Check className="w-4 h-4 text-emerald-500 shrink-0" />
@@ -274,16 +268,6 @@ export default function PrivacyPage() {
                 </div>
               ))}
             </div>
-          </div>
-
-          <div className="space-y-2 p-4 bg-blue-50/40 dark:bg-blue-950/20 border border-blue-50 dark:border-blue-900/30 rounded-2xl">
-            <h4 className="font-bold text-slate-900 dark:text-white text-sm flex items-center gap-1.5">
-              <Bot className="w-5 h-5 text-blue-500" />
-              <span>AI-Powered Feature Processing</span>
-            </h4>
-            <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed">
-              Information submitted to AI-driven modules (such as our proposal drafting sandbox or corporate assistant chat deck) is streamed securely to Google Gemini models. No user inputs are permanently shared with public training databases.
-            </p>
           </div>
 
           <div className="space-y-4 p-5 bg-amber-50/30 dark:bg-amber-950/15 border border-amber-100/50 dark:border-amber-900/30 rounded-3xl">
@@ -397,7 +381,7 @@ export default function PrivacyPage() {
             <div className="space-y-2">
               <h4 className="font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800/50 pb-1.5">Third-Party Platforms</h4>
               <p className="text-slate-500 leading-relaxed">
-                We leverage industry-trusted cloud services: Google Cloud Run, Firebase Auth & Firestore, Google Analytics, and the official Google Gen AI SDK.
+                We use industry-trusted cloud services: Google Firebase (Hosting, Authentication and Firestore) and Google Analytics.
               </p>
             </div>
             <div className="space-y-2">

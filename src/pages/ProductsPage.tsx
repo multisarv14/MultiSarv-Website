@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { ALL_PRODUCTS, PRODUCTS, PRODUCT_CATEGORIES } from "../data/master-data";
 import { useSEO } from "../hooks/useSEO";
+import { PAGE_META } from "../seo";
 import type { ProductDetails } from "../types";
 
 function ProductIcon({ id }: { id: string }) {
@@ -71,10 +72,7 @@ function ProductCard({ prod }: { prod: ProductDetails }) {
 }
 
 export default function ProductsPage() {
-  useSEO({
-    title: "Products — 13 Enterprise SaaS Solutions",
-    description: "Explore MultiSarv India's complete product catalog: RealtySarv, SocietySarv, HRSarv, FinSarv, EduSarv, HealthSarv, RealtyConnect, NOAI and more."
-  });
+  useSEO(PAGE_META["/products"]);
 
   const [activeCategory, setActiveCategory] = useState<string>("all");
 
@@ -133,12 +131,12 @@ export default function ProductsPage() {
       {/* Bottom CTA */}
       <div className="mt-16 bg-gradient-to-tr from-slate-900 to-slate-950 text-white rounded-3xl p-8 border border-slate-800 text-center space-y-4">
         <h3 className="font-display font-bold text-2xl">Can't decide which product fits your needs?</h3>
-        <p className="text-xs text-slate-400 max-w-lg mx-auto">Let our SarvAI assistant analyze your requirements and suggest the perfect MultiSarv product for your business.</p>
+        <p className="text-xs text-slate-400 max-w-lg mx-auto">Tell us about your business and our team will recommend the right MultiSarv product for you.</p>
         <Link
-          to="/sarvai"
+          to="/contact"
           className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl inline-flex items-center gap-2 transition-transform hover:scale-103 mt-2"
         >
-          <span>Ask SarvAI for Recommendations</span>
+          <span>Get a Recommendation</span>
           <ChevronRight className="w-4 h-4" />
         </Link>
       </div>

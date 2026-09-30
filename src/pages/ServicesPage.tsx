@@ -5,6 +5,7 @@ import {
 } from "lucide-react";
 import { SERVICES } from "../data/master-data";
 import { useSEO } from "../hooks/useSEO";
+import { PAGE_META } from "../seo";
 
 function ServiceIcon({ icon }: { icon: string }) {
   const map: Record<string, React.ReactNode> = {
@@ -21,10 +22,7 @@ function ServiceIcon({ icon }: { icon: string }) {
 }
 
 export default function ServicesPage() {
-  useSEO({
-    title: "Services — Custom Software, Mobile Apps & AI Integration",
-    description: "MultiSarv India offers Custom Software Development, Mobile Apps, CRM, AI Integration, Business Automation, SaaS Development, Digital Transformation, and Cloud Solutions."
-  });
+  useSEO(PAGE_META["/services"]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">

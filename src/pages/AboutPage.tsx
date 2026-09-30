@@ -2,12 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Eye, Award, Cpu, ArrowRight } from "lucide-react";
 import { useSEO } from "../hooks/useSEO";
+import { PAGE_META } from "../seo";
 
 export default function AboutPage() {
-  useSEO({
-    title: "About MultiSarv India — Mission, Vision & Team",
-    description: "Learn about MultiSarv India's mission to democratize high-security ERP systems, our vision for serverless India, and our leadership team."
-  });
+  useSEO(PAGE_META["/about"]);
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
@@ -25,7 +23,7 @@ export default function AboutPage() {
           <span className="text-cyan-400 font-mono font-bold text-xs uppercase tracking-widest">Our Story</span>
           <h2 className="text-2xl sm:text-3xl font-display font-bold mt-2 mb-4">Built in India. Engineered for Scale.</h2>
           <p className="text-slate-300 text-sm leading-relaxed">
-            MultiSarv India was founded with a singular vision: to bring enterprise-grade SaaS solutions to Indian businesses at every scale. We recognized that while global SaaS platforms exist, they rarely cater to India's unique regulatory, linguistic, and operational requirements.
+            MultiSarv was founded with a singular vision: to bring enterprise-grade SaaS solutions to Indian businesses at every scale. We recognized that while global SaaS platforms exist, they rarely cater to India's unique regulatory, linguistic, and operational requirements.
           </p>
           <p className="text-slate-300 text-sm leading-relaxed mt-4">
             Today, MultiSarv powers 220+ businesses across Real Estate, Healthcare, Education, Housing Societies, and Retail — all built on Google's Firebase platform with zero-trust security and AI-powered automation.
@@ -44,13 +42,13 @@ export default function AboutPage() {
           },
           {
             title: "Company Mission",
-            desc: "To eliminate fragile computing dependencies by replacing traditional server setups with zero-maintenance, low-latency Firebase configurations and Gemini pipelines.",
+            desc: "To replace fragile, hard-to-maintain systems with secure, low-maintenance cloud software that Indian businesses of every size can afford.",
             icon: "Award",
             color: "border-cyan-100 hover:border-cyan-400 text-cyan-600 dark:text-cyan-400"
           },
           {
             title: "Innovation Strategy",
-            desc: "We prioritize direct LLM context learning to qualify prospective deals on the fly, providing clients with immediate price estimates and system blueprints.",
+            desc: "We ship focused products fast, listen closely to customer feedback, and give every client clear pricing and a practical technical plan.",
             icon: "Cpu",
             color: "border-orange-100 hover:border-orange-400 text-orange-500"
           }
@@ -95,7 +93,7 @@ export default function AboutPage() {
           {[
             { name: "Shyam Kumar", role: "Chief Executive Architect", desc: "Coordinates product release loops across medical and estate ERP channels." },
             { name: "Pooja Kshirsagar", role: "VP Cloud & DevSecOps", desc: "Architect of zero-trust Firestore custom access policies." },
-            { name: "Manojkumar Mane", role: "Head of AI Framework Integration", desc: "Oversees LLM indexing and Gemini proposal drafting systems." },
+            { name: "Manojkumar Mane", role: "Head of AI Framework Integration", desc: "Leads AI integration projects for client platforms." },
             { name: "Santosh Kashid", role: "Lead UI Developer", desc: "Crafts delightful premium Material 3 responsive layouts." }
           ].map((member, i) => (
             <div key={i} className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-100 dark:border-slate-800">
@@ -116,7 +114,7 @@ export default function AboutPage() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {[
             { name: "Google Firebase", desc: "Real-time Firestore, Auth, Hosting" },
-            { name: "Google Gemini AI", desc: "LLM-powered intelligence layer" },
+            { name: "Google Cloud", desc: "Cloud Run, backups & monitoring" },
             { name: "React & TypeScript", desc: "Modern frontend architecture" },
             { name: "Flutter", desc: "Cross-platform mobile apps" },
           ].map((tech, i) => (
@@ -130,7 +128,7 @@ export default function AboutPage() {
 
       {/* CTA */}
       <div className="text-center space-y-4 py-8">
-        <h3 className="text-2xl font-display font-bold text-slate-950 dark:text-white">Ready to partner with MultiSarv India?</h3>
+        <h3 className="text-2xl font-display font-bold text-slate-950 dark:text-white">Ready to partner with MultiSarv?</h3>
         <div className="flex flex-wrap justify-center gap-4">
           <Link to="/contact" className="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl inline-flex items-center gap-2 transition-transform hover:scale-103">
             <span>Contact Our Team</span>

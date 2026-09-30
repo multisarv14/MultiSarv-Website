@@ -3,12 +3,10 @@ import { Link } from "react-router-dom";
 import { Check, ArrowRight, ChevronRight } from "lucide-react";
 import { ALL_PRODUCTS } from "../data/master-data";
 import { useSEO } from "../hooks/useSEO";
+import { PAGE_META } from "../seo";
 
 export default function PricingPage() {
-  useSEO({
-    title: "Pricing — Flexible SaaS Plans for Every Business",
-    description: "MultiSarv India offers transparent pricing from Free Starter to Enterprise Scale. Find the right plan for RealtySarv, SocietySarv, HRSarv, FinSarv, EduSarv, HealthSarv, and more."
-  });
+  useSEO(PAGE_META["/pricing"]);
 
   const [selectedProduct, setSelectedProduct] = useState(ALL_PRODUCTS[0].id);
   const product = ALL_PRODUCTS.find(p => p.id === selectedProduct) || ALL_PRODUCTS[0];
@@ -46,15 +44,15 @@ export default function PricingPage() {
             <div>
               <div className="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-wider">Starter</div>
               <div className="text-2xl font-display font-extrabold text-slate-950 dark:text-white mt-1">{product.pricing.starter || "₹0 / Free"}</div>
-              <div className="text-xs text-slate-400 mt-1">Evaluation sandbox access</div>
+              <div className="text-xs text-slate-400 mt-1">Free evaluation access</div>
             </div>
             <ul className="space-y-2 text-xs text-slate-600 dark:text-slate-300">
               <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />Basic feature access</li>
               <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />Up to 5 users</li>
               <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />Community support</li>
-              <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />Firebase sandbox environment</li>
+              <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />Free trial workspace</li>
             </ul>
-            <Link to="/contact" className="block w-full text-center border border-emerald-400 text-emerald-600 dark:text-emerald-400 font-bold text-xs uppercase tracking-wider py-2.5 rounded-xl hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-all">
+            <Link to={`/contact?product=${encodeURIComponent(product.name)}`} className="block w-full text-center border border-emerald-400 text-emerald-600 dark:text-emerald-400 font-bold text-xs uppercase tracking-wider py-2.5 rounded-xl hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-all">
               Get Started Free
             </Link>
           </div>
@@ -73,7 +71,7 @@ export default function PricingPage() {
               <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />Standard Firebase rules</li>
               <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />Monthly analytics reports</li>
             </ul>
-            <Link to="/sandbox" className="block w-full text-center border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-xs uppercase tracking-wider py-2.5 rounded-xl hover:border-blue-400 hover:text-blue-600 transition-all">
+            <Link to={`/contact?product=${encodeURIComponent(product.name)}`} className="block w-full text-center border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-xs uppercase tracking-wider py-2.5 rounded-xl hover:border-blue-400 hover:text-blue-600 transition-all">
               Start Standard
             </Link>
           </div>
@@ -92,9 +90,9 @@ export default function PricingPage() {
               <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />Priority live support</li>
               <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />Custom Firebase rules</li>
               <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />Real-time analytics dashboards</li>
-              <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />AI-powered reporting</li>
+              <li className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />Custom reports</li>
             </ul>
-            <Link to="/sandbox" className="block w-full text-center bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold text-xs uppercase tracking-wider py-2.5 rounded-xl hover:from-blue-500 hover:to-cyan-400 transition-all shadow-md">
+            <Link to={`/contact?product=${encodeURIComponent(product.name)}`} className="block w-full text-center bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold text-xs uppercase tracking-wider py-2.5 rounded-xl hover:from-blue-500 hover:to-cyan-400 transition-all shadow-md">
               Get Enterprise
             </Link>
           </div>
@@ -175,9 +173,9 @@ export default function PricingPage() {
       {/* Bottom CTA */}
       <div className="bg-gradient-to-tr from-blue-700 via-cyan-600 to-orange-500 text-white rounded-3xl p-8 text-center space-y-4">
         <h2 className="text-2xl font-display font-bold">Not sure which plan is right for you?</h2>
-        <p className="text-cyan-100 text-sm max-w-lg mx-auto">Our AI qualification engine will analyze your requirements and recommend the best plan for your business.</p>
-        <Link to="/sandbox" className="bg-white hover:bg-slate-50 text-slate-950 font-bold text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl inline-flex items-center gap-2 transition-transform hover:scale-105">
-          <span>Get AI Recommendation</span>
+        <p className="text-cyan-100 text-sm max-w-lg mx-auto">Talk to our team and we will recommend the best plan for your business.</p>
+        <Link to="/contact" className="bg-white hover:bg-slate-50 text-slate-950 font-bold text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl inline-flex items-center gap-2 transition-transform hover:scale-105">
+          <span>Contact Sales</span>
           <ArrowRight className="w-4 h-4" />
         </Link>
       </div>

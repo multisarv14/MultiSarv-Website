@@ -25,11 +25,10 @@ service cloud.firestore {
       return request.auth != null;
     }
 
-    // Checking if user is verified admin.
-    // Includes bootstrapped user email from prompt context: `ramdasraut9@gmail.com`
+    // Admin = the bootstrap owner account (verified email) or a user profile with role 'admin'.
     function isAdmin() {
       return isSignedIn() && (
-        request.auth.token.email == 'ramdasraut9@gmail.com' ||
+        (request.auth.token.email == 'ramdasraut9@gmail.com' && request.auth.token.email_verified == true) ||
         (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin')
       );
@@ -86,10 +85,11 @@ service cloud.firestore {
     // Contact Form schema validation
     function isValidContactForm(data) {
       return data.keys().hasAll(['name', 'email', 'message']) &&
-             data.keys().size() >= 3 &&
+             data.keys().hasOnly(['name', 'email', 'message', 'createdAt']) &&
              data.name is string && data.name.size() > 0 && data.name.size() <= 100 &&
              data.email is string && data.email.size() > 0 && data.email.size() <= 100 &&
-             data.message is string && data.message.size() > 0 && data.message.size() <= 2000;
+             data.message is string && data.message.size() > 0 && data.message.size() <= 2000 &&
+             (!('createdAt' in data) || (data.createdAt is string && data.createdAt.size() <= 50));
     }
 
     // Audit Log schema validation
@@ -119,13 +119,11 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
-    // Leads
+    // Leads (contain customer PII: admin only)
     match /leads/{leadId} {
-      allow get, list: if isSignedIn();
-      allow create: if isSignedIn() && isValidId(leadId) && isValidLead(incoming());
-      allow update: if isSignedIn() && isValidId(leadId) && isValidLead(incoming()) && (
-        isAdmin() || (incoming().id == existing().id)
-      );
+      allow get, list: if isAdmin();
+      allow create: if isAdmin() && isValidId(leadId) && isValidLead(incoming());
+      allow update: if isAdmin() && isValidId(leadId) && isValidLead(incoming());
       allow delete: if isAdmin();
     }
 
@@ -157,7 +155,7 @@ service cloud.firestore {
     // Audit Logs
     match /auditLogs/{logId} {
       allow read: if isAdmin();
-      allow create: if isSignedIn() && isValidId(logId) && isValidAuditLog(incoming());
+      allow create: if isAdmin() && isValidId(logId) && isValidAuditLog(incoming());
       allow update, delete: if false; // Audit logs must be immutable
     }
   }

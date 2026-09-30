@@ -1,21 +1,30 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# MultiSarv Website
 
-# Run and deploy your AI Studio app
+Source for [multisarv.com](https://multisarv.com) — a React + Vite single-page site hosted on Firebase Hosting, with Firebase Auth and Firestore for the contact form and admin dashboard.
 
-This contains everything you need to run your app locally.
+## Develop
 
-View your app in AI Studio: https://ai.studio/apps/1ea9ea92-0159-4611-b3c6-b1bf4de0d59e
+```bash
+npm install
+npm run dev      # http://localhost:3000
+npm run lint     # type-check
+npm run build    # vite build + prerender (per-route HTML, sitemap.xml, 404.html)
+npm run preview  # serve the built site
+```
 
-## Run Locally
+## Deploy
 
-**Prerequisites:**  Node.js
+Pushing to `main` runs `.github/workflows/firebase-deploy.yml`, which builds the site and deploys it to Firebase Hosting.
 
+Firestore rules (`firestore.rules`) are **not** deployed by the workflow. The database lives in the `gen-lang-client-0137412133` Firebase project, so deploy rule changes with:
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
-# Test Deploy Thu Aug  6 15:14:13 UTC 2026
+```bash
+firebase deploy --only firestore:rules --project gen-lang-client-0137412133
+```
+
+## Where things live
+
+- `src/data/master-data.ts` — products, services, privacy policies, case studies
+- `src/seo.ts` — page titles and descriptions (used by pages and by `scripts/prerender.mjs`)
+- `public/` — favicon, social share image, `robots.txt`
+- `/admin` — contact inquiries and leads (Google sign-in; admin access is enforced by Firestore rules)

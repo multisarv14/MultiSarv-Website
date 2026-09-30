@@ -1,24 +1,38 @@
-import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { AppProvider } from "./contexts/AppContext";
+import React, { Suspense, lazy, useEffect } from "react";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Header from "./components/Layout/Header";
 import Footer from "./components/Layout/Footer";
-
-// Pages (lazy for code splitting)
 import HomePage from "./pages/HomePage";
-import ProductsPage from "./pages/ProductsPage";
-import ProductDetailPage from "./pages/ProductDetailPage";
-import ServicesPage from "./pages/ServicesPage";
-import ServiceDetailPage from "./pages/ServiceDetailPage";
-import AboutPage from "./pages/AboutPage";
-import BlogsPage from "./pages/BlogsPage";
-import PricingPage from "./pages/PricingPage";
-import CaseStudiesPage from "./pages/CaseStudiesPage";
-import ContactPage from "./pages/ContactPage";
-import SarvAIPage from "./pages/SarvAIPage";
-import AISandboxPage from "./pages/AISandboxPage";
-import PrivacyPage from "./pages/PrivacyPage";
-import AdminPage from "./pages/AdminPage";
+
+// Route-level code splitting: only the home page ships in the main bundle.
+const ProductsPage = lazy(() => import("./pages/ProductsPage"));
+const ProductDetailPage = lazy(() => import("./pages/ProductDetailPage"));
+const ServicesPage = lazy(() => import("./pages/ServicesPage"));
+const ServiceDetailPage = lazy(() => import("./pages/ServiceDetailPage"));
+const AboutPage = lazy(() => import("./pages/AboutPage"));
+const BlogsPage = lazy(() => import("./pages/BlogsPage"));
+const PricingPage = lazy(() => import("./pages/PricingPage"));
+const CaseStudiesPage = lazy(() => import("./pages/CaseStudiesPage"));
+const ContactPage = lazy(() => import("./pages/ContactPage"));
+const PrivacyPage = lazy(() => import("./pages/PrivacyPage"));
+const AdminPage = lazy(() => import("./pages/AdminPage"));
+const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
+
+function ScrollToTop() {
+  const { pathname, hash } = useLocation();
+  useEffect(() => {
+    if (hash) {
+      document.getElementById(hash.slice(1))?.scrollIntoView();
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, hash]);
+  return null;
+}
+
+function PageFallback() {
+  return <div className="min-h-[60vh]" aria-busy="true" />;
+}
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -35,8 +49,9 @@ function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <BrowserRouter>
-      <AppProvider>
-        <Layout>
+      <ScrollToTop />
+      <Layout>
+        <Suspense fallback={<PageFallback />}>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/products" element={<ProductsPage />} />
@@ -48,16 +63,13 @@ export default function App() {
             <Route path="/pricing" element={<PricingPage />} />
             <Route path="/case-studies" element={<CaseStudiesPage />} />
             <Route path="/contact" element={<ContactPage />} />
-            <Route path="/sarvai" element={<SarvAIPage />} />
-            <Route path="/sandbox" element={<AISandboxPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/privacy/:id" element={<PrivacyPage />} />
             <Route path="/admin" element={<AdminPage />} />
-            {/* Legacy hash redirects */}
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
-        </Layout>
-      </AppProvider>
+        </Suspense>
+      </Layout>
     </BrowserRouter>
   );
 }

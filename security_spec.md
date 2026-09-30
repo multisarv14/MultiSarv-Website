@@ -1,11 +1,11 @@
-# Security Specification: MultiSarv India Firebase Infrastructure
+# Security Specification: MultiSarv Firebase Infrastructure
 
 ## 1. Data Invariants
 1. **User Identity Invariant**: A user's profile (`/users/{userId}`) can only be created by themselves upon authentication, and their roles/permissions cannot be self-escalated.
-2. **Leads Invariant**: Leads can be created by any authenticated user registering an inquiry. Only managers or administrators are allowed to view the master list of leads and perform deletions.
+2. **Leads Invariant**: Leads contain customer PII. Only administrators can create, read, update or delete leads.
 3. **Contact Forms Invariant**: Anyone can submit a contact form, but only admins can read or manage these entries.
 4. **Blog Posts Invariant**: Anyone can view (get/list) of blogs, but only administrators are legally allowed to create, update, or delete blog articles.
-5. **Security Audit Logs Invariant**: System modifications and configurations generate audit log entries. These logs are write-once or read-only for admins and cannot be mutated by standard clients.
+5. **Security Audit Logs Invariant**: Admin actions generate audit log entries. Only admins can create or read them, and no one can update or delete them.
 
 ---
 
